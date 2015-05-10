@@ -1,0 +1,13 @@
+*.exe
+*.bat
+*.sh
+*.out
+*.zedstate
+*.gch
+*.ttf
+*.bmp
+*.o
+*.save
+
+bin/
+obj/
