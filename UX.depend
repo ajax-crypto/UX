@@ -7,22 +7,18 @@
 	<X11/cursorfont.h>
 	<X11/Xlib.h>
 
-1431029030 source:f:\code\c++\ux\main.cpp
-	"sux.hpp"
+1439141843 source:f:\code\c++\ux\main.cpp
+	"include/sux.hpp"
 	<string>
+	<array>
 	<cstdlib>
 	<sstream>
 
-1431029030 f:\code\c++\ux\sux.hpp
+1439128619 f:\code\c++\ux\sux.hpp
 	<SFML\Graphics.hpp>
-	"textbox.hpp"
 	"button.hpp"
-	"label.hpp"
-	"list.hpp"
-	"checkbox.hpp"
-	"radio.hpp"
-	"slider.hpp"
 	"window.hpp"
+	"layout.hpp"
 	"uxapp.hpp"
 
 1415563903 f:\code\game\sfml-2.1\include\sfml\graphics.hpp
@@ -365,24 +361,27 @@
 	"scrollbar.hpp"
 	<algorithm>
 
-1431029030 f:\code\c++\ux\component.hpp
+1439127289 f:\code\c++\ux\component.hpp
 	"event.hpp"
-	"uielement.hpp"
+	"lookandfeel.hpp"
 	"ranged.hpp"
 
-1431029030 f:\code\c++\ux\event.hpp
+1439128524 f:\code\c++\ux\event.hpp
 	<vector>
 	<map>
 	<functional>
 	<iostream>
+	"log.hpp"
+	"typedefs.hpp"
 
-1431029030 f:\code\c++\ux\uielement.hpp
+1439099407 f:\code\c++\ux\uielement.hpp
 	<string>
 	<iostream>
+	<cassert>
 	"cursor.hpp"
 	"animator.h"
 
-1431029030 f:\code\c++\ux\ranged.hpp
+1435960123 f:\code\c++\ux\ranged.hpp
 
 1431029030 f:\code\c++\ux\scrollable.hpp
 
@@ -390,7 +389,7 @@
 	"component.hpp"
 	"scrollable.hpp"
 
-1431202490 f:\code\c++\ux\button.hpp
+1439128265 f:\code\c++\ux\button.hpp
 	"component.hpp"
 
 1431029030 f:\code\c++\ux\label.hpp
@@ -411,15 +410,140 @@
 1431029030 f:\code\c++\ux\slider.hpp
 	"checkbox.hpp"
 
-1431029030 f:\code\c++\ux\window.hpp
+1439127689 f:\code\c++\ux\window.hpp
 	"component.hpp"
 	"button.hpp"
 	<vector>
 
-1431029030 f:\code\c++\ux\uxapp.hpp
+1439128352 f:\code\c++\ux\uxapp.hpp
 	"component.hpp"
 	<thread>
 	<chrono>
 
-1431029030 f:\code\c++\ux\animator.h
+1439128684 f:\code\c++\ux\animator.h
+	<memory>
+	<chrono>
+	<thread>
+	"typedefs.hpp"
+
+1439098945 f:\code\c++\ux\log.hpp
+	<iostream>
+
+1439127940 f:\code\c++\ux\layout.hpp
+	<vector>
+	<deque>
+	<map>
+	<tuple>
+	"component.hpp"
+
+1439126948 f:\code\c++\ux\lookandfeel.hpp
+	<iostream>
+	<cassert>
+	"style.hpp"
+	"cursor.hpp"
+	"animator.h"
+
+1439128546 f:\code\c++\ux\style.hpp
+	<string>
+	"animator.h"
+
+1439128617 f:\code\c++\ux\typedefs.hpp
+
+1439141860 source:f:\code\c++\ux\src\animator.cpp
+	"..\include\animator.h"
+
+1439143535 f:\code\c++\ux\include\animator.h
+	<chrono>
+	<thread>
+	"typedefs.hpp"
+	"style.hpp"
+
+1439143293 f:\code\c++\ux\include\typedefs.hpp
+	<SFML\Graphics.hpp>
+	"log.hpp"
+
+1439143484 f:\code\c++\ux\include\log.hpp
+	<iostream>
+	<string>
+	"SFML/Graphics.hpp"
+
+1439141744 f:\code\c++\ux\include\component.hpp
+	"event.hpp"
+	"lookandfeel.hpp"
+	"interpolate.hpp"
+	"animator.h"
+
+1439143283 f:\code\c++\ux\include\event.hpp
+	<vector>
+	<map>
+	<functional>
+	<iostream>
+	"typedefs.hpp"
+
+1439141473 f:\code\c++\ux\include\lookandfeel.hpp
+	"style.hpp"
+
+1439140815 f:\code\c++\ux\include\style.hpp
+	<string>
+	"typedefs.hpp"
+
+1439139508 f:\code\c++\ux\include\interpolate.hpp
+	"typedefs.hpp"
+
+1439141870 source:f:\code\c++\ux\src\basic_element.cpp
+	"..\include\basic_element.hpp"
+
+1439138283 f:\code\c++\ux\include\basic_element.hpp
+	"component.hpp"
+	"animator.h"
+
+1439141879 source:f:\code\c++\ux\src\component.cpp
+	"..\include\component.hpp"
+
+1439143375 source:f:\code\c++\ux\src\event.cpp
+	"..\include\event.hpp"
+
+1439141899 source:f:\code\c++\ux\src\interpolate.cpp
+	"../include/interpolate.hpp"
+
+1439141916 source:f:\code\c++\ux\src\lookandfeel.cpp
+	"..\include\lookandfeel.hpp"
+
+1439141926 source:f:\code\c++\ux\src\style.cpp
+	"..\include\style.hpp"
+
+1439141932 source:f:\code\c++\ux\src\uxapp.cpp
+	"..\include\uxapp.hpp"
+
+1439139007 f:\code\c++\ux\include\uxapp.hpp
+	"component.hpp"
+	"window.hpp"
+	<thread>
+	<chrono>
+
+1439140972 f:\code\c++\ux\include\window.hpp
+	"component.hpp"
+	<vector>
+
+1439141939 source:f:\code\c++\ux\src\window.cpp
+	"../include/window.hpp"
+
+1439141829 f:\code\c++\ux\include\sux.hpp
+	"basic_element.hpp"
+	"window.hpp"
+	"layout.hpp"
+	"uxapp.hpp"
+
+1439141113 f:\code\c++\ux\include\layout.hpp
+	<vector>
+	<deque>
+	<map>
+	<tuple>
+	"component.hpp"
+
+1439141663 source:f:\code\c++\ux\src\layout.cpp
+	"../include/layout.hpp"
+
+1439143508 source:f:\code\c++\ux\src\log.cpp
+	"../include/log.hpp"
 

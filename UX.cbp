@@ -12,11 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Compiler>
-					<Add option="-O2" />
-				</Compiler>
 				<Linker>
-					<Add option="-s" />
 					<Add library="sfml-graphics" />
 					<Add library="sfml-window" />
 					<Add library="sfml-system" />
@@ -24,8 +20,15 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wshadow" />
+			<Add option="-Winit-self" />
+			<Add option="-Wredundant-decls" />
 			<Add option="-Wcast-align" />
+			<Add option="-Wunreachable-code" />
+			<Add option="-Wmissing-include-dirs" />
+			<Add option="-Weffc++" />
 			<Add option="-std=c++11" />
+			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-pg" />
 			<Add option="-g" />
@@ -40,29 +43,31 @@
 			<Add library="dxguid" />
 			<Add directory="F:/Code/Game/SFML-2.1/lib" />
 		</Linker>
-		<Unit filename="animator.h" />
-		<Unit filename="button.hpp" />
-		<Unit filename="checkbox.hpp" />
-		<Unit filename="component.hpp" />
-		<Unit filename="creator.h" />
-		<Unit filename="cursor.cpp" />
-		<Unit filename="cursor.hpp" />
-		<Unit filename="event.hpp" />
-		<Unit filename="label.hpp" />
-		<Unit filename="list.hpp" />
-		<Unit filename="log.hpp" />
+		<Unit filename="include/animator.h" />
+		<Unit filename="include/basic_element.hpp" />
+		<Unit filename="include/component.hpp" />
+		<Unit filename="include/event.hpp" />
+		<Unit filename="include/interpolate.hpp" />
+		<Unit filename="include/layout.hpp" />
+		<Unit filename="include/log.hpp" />
+		<Unit filename="include/lookandfeel.hpp" />
+		<Unit filename="include/style.hpp" />
+		<Unit filename="include/sux.hpp" />
+		<Unit filename="include/typedefs.hpp" />
+		<Unit filename="include/uxapp.hpp" />
+		<Unit filename="include/window.hpp" />
 		<Unit filename="main.cpp" />
-		<Unit filename="panorama.hpp" />
-		<Unit filename="radio.hpp" />
-		<Unit filename="ranged.hpp" />
-		<Unit filename="scrollable.hpp" />
-		<Unit filename="scrollbar.hpp" />
-		<Unit filename="slider.hpp" />
-		<Unit filename="sux.hpp" />
-		<Unit filename="textbox.hpp" />
-		<Unit filename="uielement.hpp" />
-		<Unit filename="uxapp.hpp" />
-		<Unit filename="window.hpp" />
+		<Unit filename="src/animator.cpp" />
+		<Unit filename="src/basic_element.cpp" />
+		<Unit filename="src/component.cpp" />
+		<Unit filename="src/event.cpp" />
+		<Unit filename="src/interpolate.cpp" />
+		<Unit filename="src/layout.cpp" />
+		<Unit filename="src/log.cpp" />
+		<Unit filename="src/lookandfeel.cpp" />
+		<Unit filename="src/style.cpp" />
+		<Unit filename="src/uxapp.cpp" />
+		<Unit filename="src/window.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
