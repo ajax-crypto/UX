@@ -1,4 +1,4 @@
-#include "..\include\event.hpp"
+#include "../include/event.hpp"
 
 namespace ux
 {

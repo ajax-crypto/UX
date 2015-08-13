@@ -12,7 +12,6 @@ namespace ux
 
 	class UXApplication
 	{
-
 		bool            titlebar ;
 		std::string     app_title ;
 
@@ -32,7 +31,6 @@ namespace ux
 		void draw();
 		void add(Window* w) { window = w; }
 		int run();
-
 	};
 
 }

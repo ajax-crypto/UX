@@ -1,4 +1,4 @@
-#include "..\include\animator.h"
+#include "../include/animator.h"
 
 namespace ux
 {

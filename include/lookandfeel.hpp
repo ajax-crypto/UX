@@ -2,6 +2,7 @@
 #define __UX_UI_ELEMENT_
 
 #include "style.hpp"
+#include "log.hpp"
 
 namespace ux
 {
@@ -39,7 +40,7 @@ namespace ux
 		Shapes shape_type ;
 		StyleData  prev_style ;
 		std::map<unsigned, std::vector<AnimCount*>> animations ;
-		std::map<unsigned int, StyleData> state_styles ;
+		//std::map<unsigned int, StyleData> state_styles ;
 
 		Shape *shape_impl ;
 		Shape *border_top,*border_bottom ,*border_left, *border_right ;
@@ -47,7 +48,6 @@ namespace ux
 		RenderTexture texture ;
 		static Font Regular ;
 		static Font Bold ;
-
 	};
 }
 

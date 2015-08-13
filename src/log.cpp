@@ -2,6 +2,8 @@
 
 namespace ux
 {
+    bool logger::logging = true ;
+    
     std::ostream& operator<<(std::ostream& stream, const sf::Color& c)
 	{
 		stream << "( " << (int)c.r << " " << (int)c.g << " " << (int)c.b << " )" ;

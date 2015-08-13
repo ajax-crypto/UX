@@ -15,7 +15,6 @@ namespace ux
 
 	class Window : public Component
 	{
-
 		int dcalls = 1 ;
 		bool closed ;
 
@@ -29,15 +28,12 @@ namespace ux
 		void handleEvents(const Event&);
 		bool isClosed() const { return closed; }
 		void draw(Window_Impl*);
-		void setRenderTarget(Window_Impl* t)
-		{ target = dynamic_cast<TargetWindow*>(t); }
-
+		void setRenderTarget(Window_Impl* t) { target = dynamic_cast<TargetWindow*>(t); }
 		void update(int, int) {}
 
 		Color background_color ;
 
 		friend class Animator ;
-
 	};
 }
 

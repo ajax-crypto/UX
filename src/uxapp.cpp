@@ -1,4 +1,4 @@
-#include "..\include\uxapp.hpp"
+#include "../include/uxapp.hpp"
 
 namespace ux
 {

@@ -1,8 +1,9 @@
 #ifndef __UX__TYPEDEFS__
 #define __UX__TYPEDEFS__
 
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "log.hpp"
+#include <functional>
 
 namespace ux
 {

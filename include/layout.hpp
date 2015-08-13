@@ -27,7 +27,6 @@ namespace ux
 
     class FlexBox : public Component
     {
-
     protected:
         std::vector<std::vector<Component*>> boxes ;
         std::deque<Coordinates> regions ;
@@ -51,7 +50,6 @@ namespace ux
         float height, width ;
 
         enum { ROWS, COLS  };
-
     };
 
 }

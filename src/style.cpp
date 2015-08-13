@@ -1,4 +1,4 @@
-#include "..\include\style.hpp"
+#include "../include/style.hpp"
 
 namespace ux
 {
@@ -134,6 +134,7 @@ namespace ux
     StyleData::StyleData()
     {
         position.x = position.y = 0.f ;
+        shape.type = NONE;
         shape.position.x = shape.position.y = content.position.x = content.position.y = 0.f ;
         padding.width = padding.top = padding.bottom = padding.left = padding.right = 0.f ;
         border.width = border.top = border.bottom = border.left = border.right = 0.f ;

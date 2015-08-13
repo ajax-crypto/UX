@@ -1,0 +1,138 @@
+In file included from src/../include/basic_element.hpp:4:0,
+                 from src/basic_element.cpp:1:
+src/../include/component.hpp: In constructor ‘ux::Component::Component(const string&, float, float, float, float)’:
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘x’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+             bubble_up{false}
+                            ^
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘y’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘w’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘h’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/basic_element.cpp: In constructor ‘ux::BasicElement::BasicElement(const string&, int, int, int, int, bool)’:
+src/basic_element.cpp:6:28: warning: narrowing conversion of ‘x’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+     Component{t, x, y, w, h}
+                            ^
+src/basic_element.cpp:6:28: warning: narrowing conversion of ‘y’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+src/basic_element.cpp:6:28: warning: narrowing conversion of ‘w’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+src/basic_element.cpp:6:28: warning: narrowing conversion of ‘h’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+src/basic_element.cpp: In member function ‘virtual void ux::BasicElement::update(int, int)’:
+src/basic_element.cpp:41:47: warning: narrowing conversion of ‘_x’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+         style(ELEMENT_POSITION, Vec2f{ _x, _y });
+                                               ^
+src/basic_element.cpp:41:47: warning: narrowing conversion of ‘_y’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+In file included from src/component.cpp:1:0:
+src/../include/component.hpp: In constructor ‘ux::Component::Component(const string&, float, float, float, float)’:
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘x’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+             bubble_up{false}
+                            ^
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘y’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘w’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘h’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/component.cpp: In member function ‘void ux::Component::pack()’:
+src/component.cpp:115:29: warning: narrowing conversion of ‘((ux::Component*)this)->ux::Component::anim_info.ux::Component::AnimInfo::amount’ from ‘unsigned int’ to ‘float’ inside { } [-Wnarrowing]
+                             };
+                             ^
+src/component.cpp:126:29: warning: narrowing conversion of ‘((ux::Component*)this)->ux::Component::anim_info.ux::Component::AnimInfo::amount’ from ‘unsigned int’ to ‘float’ inside { } [-Wnarrowing]
+                             };
+                             ^
+In file included from src/../include/component.hpp:7:0,
+                 from src/component.cpp:1:
+src/../include/animator.h: In instantiation of ‘ux::DefaultAnimation< <template-parameter-1-1>, <template-parameter-1-2> >::DefaultAnimation(unsigned int, ux::StyleData&, const Prop&, ux::Property, float) [with Prop = sf::Vector2<float>; InterpolationRule = ux::Vec2Interpolate]’:
+src/component.cpp:115:29:   required from here
+src/../include/animator.h:94:30: warning: narrowing conversion of ‘s’ from ‘float’ to ‘unsigned int’ inside { } [-Wnarrowing]
+             property_name{pid}
+                              ^
+src/../include/animator.h: In instantiation of ‘ux::DefaultAnimation< <template-parameter-1-1>, <template-parameter-1-2> >::DefaultAnimation(unsigned int, ux::StyleData&, const Prop&, ux::Property, float) [with Prop = sf::Color; InterpolationRule = ux::ColorInterpolate]’:
+src/component.cpp:126:29:   required from here
+src/../include/animator.h:94:30: warning: narrowing conversion of ‘s’ from ‘float’ to ‘unsigned int’ inside { } [-Wnarrowing]
+src/event.cpp: In member function ‘ux::EventID ux::EventHandler::addEventListener(int, const HandlerType&)’:
+src/event.cpp:17:62: warning: narrowing conversion of ‘event’ from ‘int’ to ‘unsigned int’ inside { } [-Wnarrowing]
+         return EventID{event, callbacks[event].size() - 1, id};
+                                                              ^
+src/event.cpp:17:55: warning: narrowing conversion of ‘((&((ux::EventHandler*)this)->ux::EventHandler::callbacks.std::map<_Key, _Tp, _Compare, _Alloc>::operator[]<unsigned int, std::vector<std::function<void(const sf::Event&)> >, std::less<unsigned int>, std::allocator<std::pair<const unsigned int, std::vector<std::function<void(const sf::Event&)> > > > >((* &((std::map<unsigned int, std::vector<std::function<void(const sf::Event&)> > >::key_type)event))))->std::vector<_Tp, _Alloc>::size<std::function<void(const sf::Event&)>, std::allocator<std::function<void(const sf::Event&)> > >() + 18446744073709551615ul)’ from ‘std::vector<std::function<void(const sf::Event&)> >::size_type {aka long unsigned int}’ to ‘unsigned int’ inside { } [-Wnarrowing]
+         return EventID{event, callbacks[event].size() - 1, id};
+                                                       ^
+In file included from src/../include/layout.hpp:9:0,
+                 from src/layout.cpp:1:
+src/../include/component.hpp: In constructor ‘ux::Component::Component(const string&, float, float, float, float)’:
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘x’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+             bubble_up{false}
+                            ^
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘y’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘w’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘h’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/lookandfeel.cpp: In constructor ‘ux::LookAndFeel::LookAndFeel(const string&, int, int, int, int)’:
+src/lookandfeel.cpp:25:43: warning: narrowing conversion of ‘x’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+         style(ELEMENT_POSITION, Vec2f{x, y});
+                                           ^
+src/lookandfeel.cpp:25:43: warning: narrowing conversion of ‘y’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+src/lookandfeel.cpp:41:77: warning: narrowing conversion of ‘w’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+             border_bottom = new RectangleShape(Vec2f{ w, style.border.width });
+                                                                             ^
+src/lookandfeel.cpp:42:74: warning: narrowing conversion of ‘w’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+             border_top = new RectangleShape(Vec2f{ w, style.border.width });
+                                                                          ^
+src/lookandfeel.cpp:43:75: warning: narrowing conversion of ‘h’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+             border_left = new RectangleShape(Vec2f{ style.border.width, h });
+                                                                           ^
+src/lookandfeel.cpp:44:76: warning: narrowing conversion of ‘h’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+             border_right = new RectangleShape(Vec2f{ style.border.width, h });
+                                                                            ^
+src/lookandfeel.cpp:49:79: warning: narrowing conversion of ‘h’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+                 border_left = new RectangleShape(Vec2f{ style.border.width, h });
+                                                                               ^
+src/lookandfeel.cpp:51:80: warning: narrowing conversion of ‘h’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+                 border_right = new RectangleShape(Vec2f{ style.border.width, h });
+                                                                                ^
+src/lookandfeel.cpp:53:78: warning: narrowing conversion of ‘w’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+                 border_top = new RectangleShape(Vec2f{ w, style.border.width });
+                                                                              ^
+src/lookandfeel.cpp:55:81: warning: narrowing conversion of ‘w’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+                 border_bottom = new RectangleShape(Vec2f{ w, style.border.width });
+                                                                                 ^
+In file included from src/../include/uxapp.hpp:4:0,
+                 from src/uxapp.cpp:1:
+src/../include/component.hpp: In constructor ‘ux::Component::Component(const string&, float, float, float, float)’:
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘x’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+             bubble_up{false}
+                            ^
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘y’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘w’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘h’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/uxapp.cpp: In member function ‘int ux::UXApplication::run()’:
+src/uxapp.cpp:23:48: warning: narrowing conversion of ‘w’ from ‘unsigned int’ to ‘float’ inside { } [-Wnarrowing]
+                     view.reset(FRect{0, 0, w, h});
+                                                ^
+src/uxapp.cpp:23:48: warning: narrowing conversion of ‘h’ from ‘unsigned int’ to ‘float’ inside { } [-Wnarrowing]
+In file included from src/../include/window.hpp:4:0,
+                 from src/window.cpp:1:
+src/../include/component.hpp: In constructor ‘ux::Component::Component(const string&, float, float, float, float)’:
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘x’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+             bubble_up{false}
+                            ^
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘y’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘w’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/../include/component.hpp:45:28: warning: narrowing conversion of ‘h’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+src/window.cpp: In constructor ‘ux::Window::Window(int, int)’:
+src/window.cpp:6:29: warning: narrowing conversion of ‘w’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+     Component{"", 0, 0, w, h}
+                             ^
+src/window.cpp:6:29: warning: narrowing conversion of ‘h’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+src/window.cpp:11:33: warning: narrowing conversion of ‘w’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+         shape.setSize(Vec2f{w, h});
+                                 ^
+src/window.cpp:11:33: warning: narrowing conversion of ‘h’ from ‘int’ to ‘float’ inside { } [-Wnarrowing]
+src/window.cpp: In member function ‘virtual void ux::Window::handleEvents(const Event&)’:
+src/window.cpp:71:72: warning: narrowing conversion of ‘(unsigned int)event.sf::Event::<anonymous>.sf::Event::<anonymous union>::size.sf::Event::SizeEvent::width’ from ‘unsigned int’ to ‘float’ inside { } [-Wnarrowing]
+                 shape.setSize(Vec2f{event.size.width, event.size.height});
+                                                                        ^
+src/window.cpp:71:72: warning: narrowing conversion of ‘(unsigned int)event.sf::Event::<anonymous>.sf::Event::<anonymous union>::size.sf::Event::SizeEvent::height’ from ‘unsigned int’ to ‘float’ inside { } [-Wnarrowing]
+In file included from include/basic_element.hpp:4:0,
+                 from include/sux.hpp:4,
+                 from main.cpp:7:
+include/component.hpp: In constructor ‘ux::Component::Component(const string&, float, float, float, float)’:
+include/component.hpp:45:28: warning: narrowing conversion of ‘x’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+             bubble_up{false}
+                            ^
+include/component.hpp:45:28: warning: narrowing conversion of ‘y’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+include/component.hpp:45:28: warning: narrowing conversion of ‘w’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]
+include/component.hpp:45:28: warning: narrowing conversion of ‘h’ from ‘float’ to ‘int’ inside { } [-Wnarrowing]

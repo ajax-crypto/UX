@@ -1,4 +1,4 @@
-#include "..\include\lookandfeel.hpp"
+#include "../include/lookandfeel.hpp"
 
 namespace ux
 {
@@ -23,8 +23,7 @@ namespace ux
     {
         START ;
         style(ELEMENT_POSITION, Vec2f{x, y});
-        //style(SHAPE_POSITION, Vec2f{x, y});
-        std::cout << "style.shape.position = "  << style.shape.position << "\n";
+        //std::cout << "style.shape.position = "  << style.shape.position << "\n";
         style.shape.rect.height = h ;
         style.shape.rect.width = w ;
         style.content.text = str ;
@@ -37,7 +36,6 @@ namespace ux
         style.content.auto_size = true;
         style.content.alignment = CENTER ;
         style.outline.width = 0u ;
-        //shape_impl = new typename UIType::RectangleShape(Vec2f{w, h});
         if(style.border.width > 0)
         {
             border_bottom = new RectangleShape(Vec2f{ w, style.border.width });
@@ -69,7 +67,7 @@ namespace ux
 
     void LookAndFeel::apply_current_changes()
     {
-        //START;
+        START;
         auto size = 0u ;
         text_impl = Text{style.content.text, Regular};
         text_impl.setColor(style.content.color);
@@ -79,12 +77,12 @@ namespace ux
            style.shape.rect.width != prev_style.shape.rect.width)
             texture.create(style.shape.rect.width + (2.f * style.outline.width),
                            style.shape.rect.height + (2.f * style.outline.width));
-        //LOG("Content : " << style.content.text);
+        LOG("Content : " << style.content.text);
 
         switch(style.shape.type)
         {
             case RECTANGLE:
-                //LOG("Rectangle!!!");
+                LOG("Rectangle!!!");
                 typedef RectangleShape R ;
                 if(prev_style.shape.type != RECTANGLE)
                 {
@@ -92,7 +90,6 @@ namespace ux
                     if(shape_impl != nullptr)
                         delete shape_impl ;
                     shape_impl = new R();
-                    std::cout << "\ncreated shape...";
                 }
                 dynamic_cast<R*>(shape_impl)->setSize(Vec2f{style.shape.rect.width, style.shape.rect.height});
                 size = style.content.text.size();
@@ -165,7 +162,7 @@ namespace ux
 
         GlobalDrawingStates::Redraw = true ;
         prev_style = style ;
-        //END;
+        END;
     }
 
     void LookAndFeel::setText(const std::string& str)

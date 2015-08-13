@@ -1,8 +1,11 @@
 #define UX_DEBUG 1
+#define FUNC_INFO 1
 #define UX_LAYOUT_DEBUG 1
+#define ELEMENT_PROPERTIES 1
 #define RT 1
 
 #include "include/sux.hpp"
+#include "include/log.hpp"
 #include <string>
 #include <array>
 #include <cstdlib>
@@ -107,6 +110,8 @@ int main()
     using namespace sux ;
 
     Calculator<float> calc ;
+    
+    ux::logger::logging = false ;
 
     const std::array<std::string, 16> names = {
         "1", "2", "3", "+",
@@ -153,12 +158,15 @@ int main()
 
     for(unsigned int i = 0u; i < 16; ++i)
     {
+        //ux::log("Applying styles to " << i << "th element");
         buttons[i].button.style.content.text = names[i];
         buttons[i].button.style.shape.color = colors[i];
         buttons[i].button.style.content.color = Color{255, 255, 255};
         buttons[i].button.style.outline.color = Color{255, 255, 255};
         buttons[i].button.style.outline.width = 2;
+        //ux::log("Imbuing styles to " << i << "th element");
         buttons[i].button.imbue_properties();
+        //ux::log("Styling complete...\tAdding Callbacks");
 
         /*buttons[i].button.style.margin(23 | { })
                                  .font(name, size, type)
@@ -224,14 +232,15 @@ int main()
                 };
             }(i)
         );
-        layout.add(i + 1, &buttons[i].button);
+       layout.add(i + 1, &buttons[i].button);
     }
 
     layout.add(0, &display);
     layout.pack();
+    ux::log("Layout packed !!!");
     w.add(&layout);
     app.add(&w);
-    //PAUSE ;
+    ux::log("Added to window");
     app.draw();
     return app.run();
 }

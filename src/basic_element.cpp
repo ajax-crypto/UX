@@ -1,4 +1,4 @@
-#include "..\include\basic_element.hpp"
+#include "../include/basic_element.hpp"
 
 namespace ux
 {
@@ -39,7 +39,7 @@ namespace ux
     void BasicElement::update(int _x, int _y)
     {
         style(ELEMENT_POSITION, Vec2f{ _x, _y });
-        this->imbue_properties();
+        imbue_properties();
     }
 
     void BasicElement::handleEvents(Event const& event)
@@ -123,8 +123,7 @@ namespace ux
             }
             return true ;
         };
-
-        this->addAnimation(UXEvents::StateToggled, change_color);
+        addAnimation(UXEvents::StateToggled, change_color);
     }
 
     ToggleButton::ToggleButton(const std::string& n, int x, int y, int w, int h,

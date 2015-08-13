@@ -3,6 +3,7 @@
 
 #include "component.hpp"
 #include "animator.h"
+#include "log.hpp"
 
 namespace ux
 {
