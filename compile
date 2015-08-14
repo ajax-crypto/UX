@@ -1,0 +1,1 @@
+g++ -std=c++14 src/*.cpp main.cpp -lX11 -lGL -lGLEW -lsfml-graphics -lsfml-window -lsfml-system > log 2>&1
