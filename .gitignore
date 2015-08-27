@@ -6,7 +6,10 @@
 *.gch
 *.bmp
 *.o
-*.save
+UX.save
+UX.cbp
+UX.layout
+UX.depend
 
 bin/
 obj/

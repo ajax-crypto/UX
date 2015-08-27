@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+g++ -std=c++14 -I../SFML-2.3.1/include -L../SFML-2.3.1/lib src/*.cpp main.cpp -lX11 -lGL -lGLEW -lsfml-graphics -lsfml-window -lsfml-system -o bin/demo > log 2>&1
+=======
 g++ -std=c++14 src/*.cpp main.cpp -lX11 -lGL -lGLEW -lsfml-graphics -lsfml-window -lsfml-system > log 2>&1
+>>>>>>> f251fd85a1a2f1c404290aa616034b306966d730

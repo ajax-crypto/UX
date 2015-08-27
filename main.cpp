@@ -110,7 +110,7 @@ int main()
     using namespace sux ;
 
     Calculator<float> calc ;
-    
+
     ux::logger::logging = false ;
 
     const std::array<std::string, 16> names = {
@@ -237,10 +237,10 @@ int main()
 
     layout.add(0, &display);
     layout.pack();
-    ux::log("Layout packed !!!");
+    //ux::log("Layout packed !!!");
     w.add(&layout);
     app.add(&w);
-    ux::log("Added to window");
+    //ux::log("Added to window");
     app.draw();
     return app.run();
 }
