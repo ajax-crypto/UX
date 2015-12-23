@@ -13,21 +13,20 @@ namespace ux
 	{
     public:
 
-        enum { WaitCursor, TextCursor, ArrowCursor, HandCursor };
-
-		LookAndFeel() :
-		    shape_impl{nullptr}, border_top{nullptr},
-		    border_bottom{nullptr}, border_left{nullptr},
-		    border_right{nullptr} {}
+        LookAndFeel() :
+		    m_shape_impl{nullptr}, m_border_top{nullptr},
+		    m_border_bottom{nullptr}, m_border_left{nullptr},
+		    m_border_right{nullptr} {}
 		LookAndFeel(const std::string&, int, int, int, int);
 		virtual ~LookAndFeel() {  }
 
-		void setShape(Shapes s) { shape_type = s; }
-		void imbue_properties();
+		void setShape(Shapes s) { m_shape_type = s; }
 		void apply_current_changes();
 		void setText(const std::string&);
+		void update(const StyleData& parent);
+		bool updatableChange() const ;
 
-		StyleData  style;
+        StyleData  m_style;
 
 		virtual void update(int, int) = 0 ;
 		virtual void draw(Window_Impl*) = 0 ;
@@ -36,16 +35,15 @@ namespace ux
 
 	protected:
 
-		int cursor ;
-		Shapes shape_type ;
-		StyleData  prev_style ;
-		std::map<unsigned, std::vector<AnimCount*>> animations ;
-		//std::map<unsigned int, StyleData> state_styles ;
+		Shapes     m_shape_type ;
+		StyleData  m_prev_style ;
 
-		Shape *shape_impl ;
-		Shape *border_top,*border_bottom ,*border_left, *border_right ;
-		Text   text_impl ;
-		RenderTexture texture ;
+		std::map<unsigned, std::vector<AnimCount*>> m_animations ;
+
+		Shape *m_shape_impl ;
+		Shape *m_border_top,*m_border_bottom ,*m_border_left, *m_border_right ;
+		Text   m_text_impl ;
+		RenderTexture m_texture ;
 		static Font Regular ;
 		static Font Bold ;
 	};

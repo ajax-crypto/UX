@@ -25,7 +25,7 @@ public:
     Calculator() : first{false}, extracted{false} {} ;
 
     void setVal(const std::string&);
-    void setOperation(Operation o) { std::cout << "operation : " << o << "\n"; op = o; }
+    void setOperation(Operation o) { op = o; }
     void reset() { first = false; extracted = false; }
     std::string getResult() ;
     bool resultExtracted() const { return extracted; }
@@ -111,7 +111,7 @@ int main()
 
     Calculator<float> calc ;
 
-    ux::logger::logging = false ;
+    ux::logger::logging = true ;
 
     const std::array<std::string, 16> names = {
         "1", "2", "3", "+",
@@ -137,6 +137,11 @@ int main()
     SBox layout{5, 4, 0, 0, APP_WIDTH, APP_HEIGHT};
     layout.merge(SBox::COLS, 0);
 
+    ux::StyleData ob ;
+    std::cout << "Size of class : " << sizeof(ob);
+
+    ux::logger::logging = false;
+
     std::array<CalcButton, 16> buttons ;
     buttons[0].type = buttons[1].type = buttons[2].type = NUMERIC;
     buttons[4].type = buttons[5].type = buttons[6].type = NUMERIC;
@@ -150,57 +155,41 @@ int main()
     buttons[13].type = RESULT;
 
     SLabel display{"", 0, 0, APP_WIDTH, 100};
-    display.style.shape.color = Color{255, 255, 255};
-    display.style.content.color = Color{0, 0, 0};
-    display.style.content.font_size = 40;
-    display.style.content.auto_size = false;
-    display.style.content.alignment = ux::RIGHT ;
+    display.background(ux::RGB[ux::WHITE])
+           .text("", ux::RGB[ux::BLACK], 40)
+           .align(ux::RIGHT);
 
     for(unsigned int i = 0u; i < 16; ++i)
     {
-        //ux::log("Applying styles to " << i << "th element");
-        buttons[i].button.style.content.text = names[i];
-        buttons[i].button.style.shape.color = colors[i];
-        buttons[i].button.style.content.color = Color{255, 255, 255};
-        buttons[i].button.style.outline.color = Color{255, 255, 255};
-        buttons[i].button.style.outline.width = 2;
-        //ux::log("Imbuing styles to " << i << "th element");
-        buttons[i].button.imbue_properties();
+
+        buttons[i].button.background(colors[i])
+                         .text(names[i], ux::RGB[ux::BLACK])
+                         .imbue_properties();
         //ux::log("Styling complete...\tAdding Callbacks");
 
-        /*buttons[i].button.style.margin(23 | { })
-                                 .font(name, size, type)
-                                 .text(string)
-                                 .shape(type, color, float, [float...])
-                                 .shape_texture(texture)
-                                 .border(width
-
-                    button.on(event).animate(button.style).speed().to().add() ;
-        */
-
         buttons[i].button.on(UXEvents::GainedFocus)
-                .animate(ux::SHAPE_COLOR)
-                .to(fcolors[i])
-                .speed(20)
-                .pack();
+                  .animate(ux::SHAPE_COLOR)
+                  .to(fcolors[i])
+                  .speed(20)
+                  .pack();
 
         buttons[i].button.on(UXEvents::LostFocus)
-                .animate(ux::SHAPE_COLOR)
-                .to(colors[i])
-                .speed(20)
-                .pack();
+                  .animate(ux::SHAPE_COLOR)
+                  .to(colors[i])
+                  .speed(20)
+                  .pack();
 
         buttons[i].button.on(UXEvents::MouseButtonPressed)
-                .animate(ux::TEXT_COLOR)
-                .to(Color{255, 0, 0})
-                .speed(2)
-                .pack();
+                  .animate(ux::TEXT_COLOR)
+                  .to(ux::RGB[ux::WHITE])
+                  .speed(2)
+                  .pack();
 
         buttons[i].button.on(UXEvents::MouseButtonReleased)
-                .animate(ux::TEXT_COLOR)
-                .to(Color{255, 255, 255})
-                .speed(2)
-                .pack();
+                  .animate(ux::TEXT_COLOR)
+                  .to(ux::RGB[ux::BLACK])
+                  .speed(2)
+                  .pack();
 
         buttons[i].button.addEventListener(UXEvents::MouseButtonReleased,
             [&](unsigned index) mutable {
@@ -210,22 +199,22 @@ int main()
                     case NUMERIC:
                         if(calc.resultExtracted())
                             calc.reset();
-                        display.style.content.text += names[index];
+                        display.m_style.m_content.m_text += names[index];
                     break;
 
                     case OPERATION:
                         calc.setOperation(buttons[index].op);
-                        display.style.content.text += names[index];
+                        display.m_style.m_content.m_text += names[index];
                     break;
 
                     case RESULT:
-                        calc.setVal(display.style.content.text);
+                        calc.setVal(display.m_style.m_content.m_text);
                         std::string res = calc.getResult();
                         if(res == "Cannot divide by 0")
-                            display.style.content.font_size = 30;
+                            display.m_style.m_content.m_font_size = 30;
                         else
-                            display.style.content.font_size = 40;
-                        display.style.content.text = res;
+                            display.m_style.m_content.m_font_size = 40;
+                        display.m_style.m_content.m_text = res;
                     break ;
                     }
                     display.imbue_properties();

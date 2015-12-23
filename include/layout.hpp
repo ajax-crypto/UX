@@ -16,23 +16,23 @@ namespace ux
 
     struct Coordinates
     {
-        unsigned int startx, endx ;
-        unsigned int starty, endy ;
+        unsigned int m_startx, m_endx ;
+        unsigned int m_starty, m_endy ;
 
         Coordinates(const pair& start, const pair& end)
-            : startx{std::get<0>(start)}, starty{std::get<1>(start)},
-              endx{std::get<0>(end)}, endy{std::get<1>(end)}
+            : m_startx{std::get<0>(start)}, m_starty{std::get<1>(start)},
+              m_endx{std::get<0>(end)}, m_endy{std::get<1>(end)}
         {}
     };
 
     class FlexBox : public Component
     {
     protected:
-        std::vector<std::vector<Component*>> boxes ;
-        std::deque<Coordinates> regions ;
-        unsigned int row, col, id ;
-        unsigned int prev_region, current_region;
-        bool custom_region ;
+        std::vector<std::vector<Component*>> m_boxes ;
+        std::deque<Coordinates> m_regions ;
+        unsigned int m_row, m_col, m_id ;
+        unsigned int m_prev_region, m_current_region;
+        bool m_custom_region ;
 
     public:
         FlexBox(unsigned int, unsigned int, float, float, float, float);
@@ -46,8 +46,8 @@ namespace ux
         unsigned int merge(unsigned int, unsigned int);
         void pack();
 
-        float x, y ;
-        float height, width ;
+        float m_x, m_y ;
+        float m_height, m_width ;
 
         enum { ROWS, COLS  };
     };

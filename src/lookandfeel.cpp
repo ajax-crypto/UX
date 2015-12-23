@@ -22,122 +22,97 @@ namespace ux
      : LookAndFeel()
     {
         START ;
-        style(ELEMENT_POSITION, Vec2f{x, y});
+        m_style(ELEMENT_POSITION, Vec2f{x, y});
         //std::cout << "style.shape.position = "  << style.shape.position << "\n";
-        style.shape.rect.height = h ;
-        style.shape.rect.width = w ;
-        style.content.text = str ;
+        m_style.m_shape.m_rect.m_height = h ;
+        m_style.m_shape.m_rect.m_width = w ;
+        m_style.m_content.m_text = str ;
         if(str.size() != 0u)
-            style.content.font_size = 0.75f * w / static_cast<float>(str.size()) ;
+            m_style.m_content.m_font_size = 0.75f * w / static_cast<float>(str.size()) ;
         else
-            style.content.font_size = 0u ;
-        style.shape.type = RECTANGLE ;
-        style.content.color = Color{255, 255, 255};
-        style.content.auto_size = true;
-        style.content.alignment = CENTER ;
-        style.outline.width = 0u ;
-        if(style.border.width > 0)
-        {
-            border_bottom = new RectangleShape(Vec2f{ w, style.border.width });
-            border_top = new RectangleShape(Vec2f{ w, style.border.width });
-            border_left = new RectangleShape(Vec2f{ style.border.width, h });
-            border_right = new RectangleShape(Vec2f{ style.border.width, h });
-        }
-        else
-        {
-            if(style.border.left > 0)
-                border_left = new RectangleShape(Vec2f{ style.border.width, h });
-            if(style.border.right > 0)
-                border_right = new RectangleShape(Vec2f{ style.border.width, h });
-            if(style.border.top > 0)
-                border_top = new RectangleShape(Vec2f{ w, style.border.width });
-            if(style.border.bottom > 0)
-                border_bottom = new RectangleShape(Vec2f{ w, style.border.width });
-        }
+            m_style.m_content.m_font_size = 0u ;
+        m_style.m_shape.m_type = RECTANGLE ;
+        m_style.m_content.m_color = Color{255, 255, 255};
+        m_style.m_content.m_auto_size = true;
+        m_style.m_content.m_alignment = CENTER ;
+        if(m_style.m_border.m_left > 0)
+            m_border_left = new RectangleShape(Vec2f{ m_style.m_border.m_left, h });
+        if(m_style.m_border.m_right > 0)
+            m_border_right = new RectangleShape(Vec2f{ m_style.m_border.m_right, h });
+        if(m_style.m_border.m_top > 0)
+            m_border_top = new RectangleShape(Vec2f{ w, m_style.m_border.m_top });
+        if(m_style.m_border.m_bottom > 0)
+            m_border_bottom = new RectangleShape(Vec2f{ w, m_style.m_border.m_bottom });
         END ;
     }
 
-    void LookAndFeel::imbue_properties()
+    bool LookAndFeel::updatableChange() const
     {
-        START ;
-        //prev_style = style ;
-        apply_current_changes();
-        END ;
+        return m_style.m_content.m_alignment != m_prev_style.m_content.m_alignment ||
+               m_style.m_position != m_prev_style.m_position ||
+               m_style.m_padding != m_prev_style.m_padding ;
     }
 
     void LookAndFeel::apply_current_changes()
     {
         START;
         auto size = 0u ;
-        text_impl = Text{style.content.text, Regular};
-        text_impl.setColor(style.content.color);
-        text_impl.setStyle(Text::Regular);
-        if(style.shape.type != prev_style.shape.type ||
-           style.shape.rect.height != prev_style.shape.rect.height ||
-           style.shape.rect.width != prev_style.shape.rect.width)
-            texture.create(style.shape.rect.width + (2.f * style.outline.width),
-                           style.shape.rect.height + (2.f * style.outline.width));
-        LOG("Content : " << style.content.text);
+        m_text_impl = Text{m_style.m_content.m_text, Regular};
+        m_text_impl.setColor(m_style.m_content.m_color);
+        m_text_impl.setStyle(Text::Regular);
+        if(m_style.m_shape.m_type != m_prev_style.m_shape.m_type ||
+           m_style.m_shape.m_rect.m_height != m_prev_style.m_shape.m_rect.m_height ||
+           m_style.m_shape.m_rect.m_width != m_prev_style.m_shape.m_rect.m_width)
+            m_texture.create(m_style.m_shape.m_rect.m_width + m_style.m_border.m_left + m_style.m_border.m_right,
+                             m_style.m_shape.m_rect.m_height + m_style.m_border.m_top + m_style.m_border.m_bottom);
+        LOG("Content : " << m_style.m_content.m_text);
 
-        switch(style.shape.type)
+        switch(m_style.m_shape.m_type)
         {
             case RECTANGLE:
                 LOG("Rectangle!!!");
                 typedef RectangleShape R ;
-                if(prev_style.shape.type != RECTANGLE)
+                if(m_prev_style.m_shape.m_type != RECTANGLE)
                 {
-                    //PAUSE;
-                    if(shape_impl != nullptr)
-                        delete shape_impl ;
-                    shape_impl = new R();
+                    if(m_shape_impl != nullptr)
+                        delete m_shape_impl ;
+                    m_shape_impl = new R();
                 }
-                dynamic_cast<R*>(shape_impl)->setSize(Vec2f{style.shape.rect.width, style.shape.rect.height});
-                size = style.content.text.size();
-                if(style.content.auto_size)
+                dynamic_cast<R*>(m_shape_impl)->setSize(
+                    Vec2f{m_style.m_shape.m_rect.m_width, m_style.m_shape.m_rect.m_height});
+                size = m_style.m_content.m_text.size();
+                if(m_style.m_content.m_auto_size)
                 {
-                    style.content.font_size = (size != 0u) ?
-                        0.75f * style.shape.rect.width / static_cast<float>(size) : 0u ;
+                    m_style.m_content.m_font_size = (size != 0u) ?
+                        0.75f * m_style.m_shape.m_rect.m_width / static_cast<float>(size) : 0u ;
                 }
-                text_impl.setCharacterSize(style.content.font_size);
-                setText(style.content.text);
+                m_text_impl.setCharacterSize(m_style.m_content.m_font_size);
+                setText(m_style.m_content.m_text);
 
-                if(style.border.width > 0)
+
+                if(m_style.m_border.m_left > 0.f)
                 {
-                    border_bottom->setPosition(style.shape.position + Vec2f{0, style.shape.rect.height - style.border.width});
-                    border_top->setPosition(style.shape.position);
-                    border_left->setPosition(style.shape.position);
-                    border_right->setPosition(style.shape.position + Vec2f{style.shape.rect.width - style.border.width, 0});
-
-                    border_bottom->setFillColor(style.border.color);
-                    border_top->setFillColor(style.border.color);
-                    border_left->setFillColor(style.border.color);
-                    border_right->setFillColor(style.border.color);
+                    m_border_left->setPosition(m_style.m_shape.m_position);
+                    m_border_left->setFillColor(m_style.m_border.m_color);
                 }
-                else
+                if(m_style.m_border.m_right > 0.f)
                 {
-                    if(style.border.left > 0)
-                    {
-                        border_left->setPosition(style.shape.position);
-                        border_left->setFillColor(style.border.color);
-                    }
-                    if(style.border.right > 0)
-                    {
-                        border_right->setPosition(style.shape.position + Vec2f{style.shape.rect.width - style.border.width, 0});
-                        border_left->setFillColor(style.border.color);
-                    }
-
-                    if(style.border.top > 0)
-                    {
-                        border_top->setPosition(style.shape.position);
-                        border_left->setFillColor(style.border.color);
-                    }
-
-                    if(style.border.bottom > 0)
-                    {
-                        border_bottom->setPosition(style.shape.position + Vec2f{0, style.shape.rect.height - style.border.width});
-                        border_left->setFillColor(style.border.color);
-                    }
+                    m_border_right->setPosition(m_style.m_shape.m_position +
+                                                Vec2f{m_style.m_shape.m_rect.m_width - m_style.m_border.m_right, 0});
+                    m_border_left->setFillColor(m_style.m_border.m_color);
                 }
+                if(m_style.m_border.m_top > 0.f)
+                {
+                    m_border_top->setPosition(m_style.m_shape.m_position);
+                    m_border_left->setFillColor(m_style.m_border.m_color);
+                }
+                if(m_style.m_border.m_bottom > 0.f)
+                {
+                    m_border_bottom->setPosition(m_style.m_shape.m_position +
+                                                 Vec2f{0, m_style.m_shape.m_rect.m_height - m_style.m_border.m_bottom});
+                    m_border_left->setFillColor(m_style.m_border.m_color);
+                }
+
             break;
 
             case CIRCLE: LOG("Circle!!!"); break;
@@ -147,9 +122,8 @@ namespace ux
             default: LOG("Invalid Shape!!!"); return;
         }
 
-        shape_impl->setPosition(style.shape.position);
-        shape_impl->setFillColor(style.shape.color);
-        shape_impl->setOutlineThickness(style.outline.width);
+        m_shape_impl->setPosition(m_style.m_shape.m_position);
+        m_shape_impl->setFillColor(m_style.m_shape.m_color);
 
 #ifdef ELEMENT_PROPERTIES
         LOG("*********************Styles**********************");
@@ -161,26 +135,27 @@ namespace ux
 #endif
 
         GlobalDrawingStates::Redraw = true ;
-        prev_style = style ;
+
+        m_prev_style = m_style ;
         END;
     }
 
     void LookAndFeel::setText(const std::string& str)
     {
-        style.content.text = str ;
-        text_impl.setString(str);
-        auto metrics = text_impl.getGlobalBounds();
-        auto pos = style.content.position ;
-        switch(style.content.alignment)
+        m_style.m_content.m_text = str ;
+        m_text_impl.setString(str);
+        auto metrics = m_text_impl.getGlobalBounds();
+        auto pos = m_style.m_content.m_position ;
+        switch(m_style.m_content.m_alignment)
         {
         case CENTER:
-           text_impl.setPosition(pos.x + (style.shape.rect.width - metrics.width)/2.f,
-                                 pos.y + (int)((style.shape.rect.height - style.content.font_size)/2.f));
+            m_text_impl.setPosition(pos.x + (m_style.m_shape.m_rect.m_width - metrics.width)/2.f,
+                                 pos.y + (int)((m_style.m_shape.m_rect.m_height - m_style.m_content.m_font_size)/2.f));
         break ;
 
         case RIGHT:
-            text_impl.setPosition(pos.x + style.shape.rect.width - metrics.width,
-                                  pos.y + (int)((style.shape.rect.height - style.content.font_size)/2.f));
+            m_text_impl.setPosition(pos.x + m_style.m_shape.m_rect.m_width - metrics.width,
+                                  pos.y + (int)((m_style.m_shape.m_rect.m_height - m_style.m_content.m_font_size)/2.f));
         break ;
         }
     }

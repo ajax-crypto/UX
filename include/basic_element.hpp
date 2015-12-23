@@ -13,10 +13,13 @@ namespace ux
 
 	public:
 		BasicElement(const std::string&, int, int, int, int, bool = true);
+        
 		BasicElement(const std::string& str, const Vec2i& pos,
                                        const Vec2i& dim,
-                                       bool = true)
-        :   BasicElement{str, pos.x, pos.y, dim.x, dim.y} {}
+                                       bool = true):   
+            BasicElement{str, pos.x, pos.y, dim.x, dim.y} 
+        {}
+        
 		BasicElement() :
 		    Component{"", 0, 0, 0, 0}
         { START; END; }
@@ -35,8 +38,8 @@ namespace ux
 
 	protected:
 
-		bool  toggle ;
-		Color toggle_color, normal_color;
+		bool  m_toggle ;
+		Color m_toggle_color, m_normal_color;
 
 	public:
 		ToggleButton(const std::string&, int, int, int, int,
@@ -44,11 +47,11 @@ namespace ux
 		ToggleButton() ;
 
 		void handleEvents(Event const&);
-		bool isSelected() const { return toggle; }
+		bool isSelected() const { return m_toggle; }
 		void toggleState(bool) ;
 
 		void setNormalColor(const Color&);
-		void setToggleColor(const Color& c) { toggle_color = c; }
+		void setToggleColor(const Color& c) { m_toggle_color = c; }
 	};
 
 }

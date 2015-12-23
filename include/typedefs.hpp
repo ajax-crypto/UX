@@ -1,9 +1,13 @@
 #ifndef __UX__TYPEDEFS__
 #define __UX__TYPEDEFS__
 
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
 #include "log.hpp"
 #include <functional>
+
+#define UX_DEBUG 1
+#define FUNC_INFO 1
+#define RT 1
 
 namespace ux
 {
@@ -17,7 +21,7 @@ namespace ux
 		void setSize(int w, int h) { sf::RenderWindow::setPosition(sf::Vector2i(w, h)); }
 	};
 
-    typedef sf::Color        Color ;
+    typedef sf::Color          Color ;
     typedef sf::Event          Event ;
     typedef sf::RenderTarget   RenderTarget ;
     typedef sf::RenderTexture  RenderTexture ;

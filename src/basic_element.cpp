@@ -6,39 +6,50 @@ namespace ux
     Component{t, x, y, w, h}
     {
         START ;
-        name = "BasicElement_" + id ;
-        LOG(name);
+        m_name = "BasicElement_" + std::to_string(m_id);
+        LOG(m_name);
         END ;
     }
 
     void BasicElement::draw(Window_Impl* w)
     {
         START;
-        if(style.visible)
+        if(m_style.m_visible)
         {
-            texture.clear(Color{ 0, 0, 0, 255 });
-            texture.draw(*shape_impl);
-            texture.draw(text_impl);
-            ASSERT(shape_impl != nullptr, "Damn!");
-            if(border_left != nullptr)
-                texture.draw(*border_left);
-            if(border_right != nullptr)
-                texture.draw(*border_right);
-            if(border_top != nullptr)
-                texture.draw(*border_top);
-            if(border_bottom != nullptr)
-                texture.draw(*border_bottom);
-            texture.display();
-            Sprite sprite{texture.getTexture()};
-            sprite.setPosition(style.position);
-            w->draw(sprite);
+            //if(m_style.m_graphics.m_texture == 0u)
+            //{
+                m_texture.clear(Color{ 0, 0, 0, 255 });
+                m_texture.draw(*m_shape_impl);
+                m_texture.draw(m_text_impl);
+                ASSERT(m_shape_impl != nullptr, "Damn!");
+                if(m_border_left != nullptr)
+                    m_texture.draw(*m_border_left);
+                if(m_border_right != nullptr)
+                    m_texture.draw(*m_border_right);
+                if(m_border_top != nullptr)
+                    m_texture.draw(*m_border_top);
+                if(m_border_bottom != nullptr)
+                    m_texture.draw(*m_border_bottom);
+                m_texture.display();
+                Sprite sprite{m_texture.getTexture()};
+                sprite.setPosition(m_style.m_position);
+                w->draw(sprite);
+            //}
+            //else
+            //{
+                /*
+                Sprite sprite{TextureStore[m_style.m_texture].getTexture()};
+                sprite.setPosition(style.position);
+                w->draw(sprite);
+                */
+            //}
         }
         END;
     }
 
-    void BasicElement::update(int _x, int _y)
+    void BasicElement::update(int x, int y)
     {
-        style(ELEMENT_POSITION, Vec2f{ _x, _y });
+        m_style(ELEMENT_POSITION, Vec2f{ x, y });
         imbue_properties();
     }
 
@@ -48,31 +59,31 @@ namespace ux
         START ;
 #endif
         unsigned int ev = UXEvents::None ;
-        bool prev = focused ;
+        bool prev = m_focused ;
 
         switch(event.type)
         {
             case Event::MouseMoved:
-                focused = true ;
-                if(focused && !prev)
+                m_focused = true ;
+                if(m_focused && !prev)
                 {
                     ev = UXEvents::GainedFocus;
                     LOG("Gained Focus...");
-                    for(auto& anim : animations[UXEvents::GainedFocus])
+                    for(auto& anim : m_animations[UXEvents::GainedFocus])
                         anim->start();
-                    for(auto& anim : animations[UXEvents::LostFocus])
+                    for(auto& anim : m_animations[UXEvents::LostFocus])
                         anim->stop();
                 }
-                else if(!focused && prev)
+                else if(!m_focused && prev)
                 {
                     ev = UXEvents::LostFocus ;
                     LOG("Lost Focus...");
-                    for(auto& anim : animations[UXEvents::GainedFocus])
+                    for(auto& anim : m_animations[UXEvents::GainedFocus])
                         anim->stop();
-                    for(auto& anim : animations[UXEvents::LostFocus])
+                    for(auto& anim : m_animations[UXEvents::LostFocus])
                         anim->start();
                 }
-                else if(focused && prev)
+                else if(m_focused && prev)
                     ev = UXEvents::InFocus ;
                 else
                     ev = UXEvents::OutFocus ;
@@ -80,28 +91,28 @@ namespace ux
             break;
 
             case Event::MouseButtonPressed:
-                for(auto& anim : animations[UXEvents::MouseButtonReleased])
+                for(auto& anim : m_animations[UXEvents::MouseButtonReleased])
                     anim->stop();
-                for(auto& anim : animations[UXEvents::MouseButtonPressed])
+                for(auto& anim : m_animations[UXEvents::MouseButtonPressed])
                     anim->start();
                 ev = UXEvents::MouseButtonPressed ;
             break;
 
             case Event::MouseButtonReleased:
-                for(auto& anim : animations[UXEvents::MouseButtonPressed])
+                for(auto& anim : m_animations[UXEvents::MouseButtonPressed])
                     anim->stop();
-                for(auto& anim : animations[UXEvents::MouseButtonReleased])
+                for(auto& anim : m_animations[UXEvents::MouseButtonReleased])
                     anim->start();
                 ev = UXEvents::MouseButtonReleased ;
             break;
         }
 
         if(ev != UXEvents::None)
-            for(auto& f : callbacks[ev])
+            for(auto& f : m_callbacks[ev])
                 f(event);
 
-        if(bubble_up)
-            this->parent->handleEvents(event);
+        if(m_bubble_up)
+            this->m_parent->handleEvents(event);
 
 #ifdef EVENT_DEBUG
         END ;
@@ -114,10 +125,10 @@ namespace ux
             LOG("Toggling");
             if(running)
             {
-                if(toggle)
-                    style.shape.color = toggle_color ;
+                if(m_toggle)
+                    m_style.m_shape.m_color = m_toggle_color ;
                 else
-                    style.shape.color = normal_color ;
+                    m_style.m_shape.m_color = m_normal_color ;
                 this->apply_current_changes();
                 GlobalDrawingStates::Redraw = true ;
             }
@@ -129,9 +140,9 @@ namespace ux
     ToggleButton::ToggleButton(const std::string& n, int x, int y, int w, int h,
                                const Color& tc, const Color& nc)
         : BasicElement{n, x, y, w, h},
-          toggle{false}, toggle_color{tc}, normal_color{nc}
+          m_toggle{false}, m_toggle_color{tc}, m_normal_color{nc}
     {
-        style.shape.color = normal_color ;
+        m_style.m_shape.m_color = m_normal_color ;
         addAnimations();
     }
 
@@ -143,65 +154,65 @@ namespace ux
 
     void ToggleButton::toggleState(bool state)
     {
-        toggle = state ;
+        m_toggle = state ;
     }
 
     void ToggleButton::setNormalColor(const Color& c)
     {
-        normal_color = c;
-        style.shape.color = normal_color ;
+        m_normal_color = c;
+        m_style.m_shape.m_color = m_normal_color ;
         imbue_properties();
     }
 
     void ToggleButton::handleEvents(Event const& event)
     {
         unsigned int ev = UXEvents::None ;
-        bool prev = focused ;
+        bool prev = m_focused ;
 
         switch(event.type)
         {
             case Event::MouseMoved:
-                focused = true ;
-                if(focused && !prev)
+                m_focused = true ;
+                if(m_focused && !prev)
                 {
                     ev = UXEvents::GainedFocus;
                     //LOG("Gained Focus...");
-                    for(auto& anim : animations[UXEvents::GainedFocus])
+                    for(auto& anim : m_animations[UXEvents::GainedFocus])
                         anim->start();
-                    for(auto& anim : animations[UXEvents::LostFocus])
+                    for(auto& anim : m_animations[UXEvents::LostFocus])
                         anim->stop();
                     GlobalDrawingStates::Redraw = true ;
                 }
-                else if(!focused && prev)
+                else if(!m_focused && prev)
                 {
                     ev = UXEvents::LostFocus ;
                     //LOG("Lost Focus...");
-                    for(auto& anim : animations[UXEvents::GainedFocus])
+                    for(auto& anim : m_animations[UXEvents::GainedFocus])
                         anim->stop();
-                    for(auto& anim : animations[UXEvents::LostFocus])
+                    for(auto& anim : m_animations[UXEvents::LostFocus])
                         anim->start();
                     GlobalDrawingStates::Redraw = true ;
                 }
             break;
 
             case Event::MouseButtonReleased:
-                if(focused)
+                if(m_focused)
                 {
                     ev = UXEvents::MouseButtonReleased ;
                     // Not working!!!!
                     //toggle = !toggle ;
-                    toggle = toggle ? false : true ;
-                    LOG("State Toggled... " << toggle);
-                    for(auto& f : callbacks[UXEvents::StateToggled])
+                    m_toggle = m_toggle ? false : true ;
+                    LOG("State Toggled... " << m_toggle);
+                    for(auto& f : m_callbacks[UXEvents::StateToggled])
                         f(event);
-                    for(auto& anim : animations[UXEvents::StateToggled])
+                    for(auto& anim : m_animations[UXEvents::StateToggled])
                         anim->start();
                 }
             break;
         }
 
         if(ev != UXEvents::None)
-            for(auto& f : callbacks[ev])
+            for(auto& f : m_callbacks[ev])
                 f(event);
     }
 }

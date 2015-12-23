@@ -18,45 +18,47 @@ namespace ux
 
         struct AnimInfo
         {
-            Property     anim_param ;
-            unsigned int anim_event, amount ;
-            bool         param_change_specified ;
+            Property     m_anim_param ;
+            unsigned int m_anim_event, m_amount ;
+            bool         m_param_change_specified ;
 
             AnimInfo() :
-                param_change_specified{false}
+                m_param_change_specified{false}
                 {}
 
-        } anim_info ;
+        } m_anim_info ;
 
-        ColorInterpolate cig, cil ;
-        LinearInterpolate<float> fi ;
+        std::vector<AnimInfo> m_anim_events ;
+        ColorInterpolate m_cig, m_cil ;
+        LinearInterpolate<float> m_fi ;
 
         struct {
-            Color color ;
-            Vec2f dimension ;
-            float amount ;
-        } property ;
+            Color m_color ;
+            Vec2f m_dimension ;
+            float m_amount ;
+        } m_property ;
 
     protected:
         Component(const std::string& str, float x, float y, float w, float h) :
             LookAndFeel{str, x, y, w, h},
             EventHandler{},
-            parent{nullptr}, enabled{true},
-            bubble_up{false}
+            m_parent{nullptr}, m_enabled{true},
+            m_bubble_up{false}
         { START; END; }
 
-        bool enabled ;
-        Component* parent ;
-        std::vector<Component*> children ;
-        std::string name ;
+        bool m_enabled ;
+        Component* m_parent ;
+        std::vector<Component*> m_children ;
+        std::string m_name ;
 
     public:
         void add(Component*);
-        void setFocus() { this->focused = true; }
-        void removeFocus() { this->focused = false; }
-        void enable() { enabled = true; }
-        void disable() { enabled = false; }
+        void setFocus() { m_focused = true; }
+        void removeFocus() { m_focused = false; }
+        void enable() { m_enabled = true; }
+        void disable() { m_enabled = false; }
         void stealFocus();
+        void operator+=(Component&);
 
         AnimationID addAnimation(unsigned int, const anim_func&);
         AnimationID addAnimation(unsigned int, AnimCount*);
@@ -69,22 +71,43 @@ namespace ux
         Component& to(const std::vector<Vec2f>&) ;
         Component& to(float);
         Component& speed(unsigned int);
+        Component& then();
         void       pack() ;
+        void       imbue_properties();
 
-        bool isEnabled() const { return enabled; }
-        unsigned int getId() const { return EventHandler::id; }
+        Component& margin(float);
+		Component& margin(const Sides&);
+		Component& padding(float);
+        Component& padding(const Sides&);
+        Component& content(const Content&);
+        Component& text(const std::string&);
+        Component& text(const std::string&, const Color&);
+        Component& text(const std::string&, const Color&, int);
+        Component& align(Alignment);
+        Component& border(float, const Color&);
+        Component& border(const Sides&, const Color&);
+        Component& background(const Color&);
+        Component& background(uint64_t);
+        Component& zindex(int);
+        Component& show();
+        Component& hide();
+        Component& autosize();
+        Component& shadow(const Shadow&);
 
-        bool bubble_up ;
+        bool isEnabled() const { return m_enabled; }
+        unsigned int getId() const { return EventHandler::m_id; }
+
+        bool m_bubble_up ;
 
         bool operator==(const Component& c)
         {
-            return EventHandler::id == c.id ;
+            return EventHandler::m_id == c.m_id ;
         }
 
         static std::map<unsigned, Component*> all_elements ;
 
         friend struct Animator ;
-        friend class Window ;
+        friend class  Window ;
     };
 }
 

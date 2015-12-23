@@ -44,20 +44,20 @@ namespace ux
 
     class EventID
     {
-        unsigned int event_type ;
-        unsigned int handler_id ;
-        unsigned int component_id ;
+        unsigned int m_event_type ;
+        unsigned int m_handler_id ;
+        unsigned int m_component_id ;
 
     public:
         EventID(unsigned int x, unsigned int y, unsigned int z) :
-            event_type{x}, handler_id{y}, component_id{z}
+            m_event_type{x}, m_handler_id{y}, m_component_id{z}
         {}
 
         bool operator==(const EventID& cmp) const
         {
-            return (event_type == cmp.event_type) &&
-                   (handler_id == cmp.handler_id) &&
-                   (component_id == cmp.component_id);
+            return (m_event_type == cmp.m_event_type) &&
+                   (m_handler_id == cmp.m_handler_id) &&
+                   (m_component_id == cmp.m_component_id);
         }
 
         friend class EventHandler ;
@@ -73,16 +73,16 @@ namespace ux
         static HandlerType NO_EVENT_HANDLER ;
 
 	protected:
-		std::map<unsigned int, std::vector<HandlerType>> callbacks;
-		bool focused ;
-		unsigned int id ;
+		std::map<unsigned int, std::vector<HandlerType>> m_callbacks;
+		bool m_focused ;
+		unsigned int m_id ;
 
 	public:
 		EventHandler();
 		EventID addEventListener(int event, const HandlerType&);
 		bool    removeEventListener(const EventID&);
 
-		bool isFocused() const { return focused; }
+		bool isFocused() const { return m_focused; }
 		virtual void stealFocus() = 0 ;
 		virtual void handleEvents(Event const&) = 0 ;
 	};

@@ -6,10 +6,10 @@ namespace ux
     Component{"", 0, 0, w, h}
     {
         START ;
-        closed = false ;
-        background_color = Color{200, 200, 200};
-        shape.setSize(Vec2f{w, h});
-        shape.setFillColor(background_color);
+        m_closed = false ;
+        m_background_color = Color{200, 200, 200};
+        m_shape.setSize(Vec2f{w, h});
+        m_shape.setFillColor(m_background_color);
         LookAndFeel::LoadFonts();
         //this->parent = nullptr ;
         END ;
@@ -18,13 +18,13 @@ namespace ux
     void Window::draw(Window_Impl* w)
     {
         //START ;
-        shape.setFillColor(background_color);
-        w->draw(shape);
-        for(auto c : children)
+        m_shape.setFillColor(m_background_color);
+        w->draw(m_shape);
+        for(auto c : m_children)
             c->draw(w);
         GlobalDrawingStates::Redraw = false;
         Animator::Animate();
-        LOG("Drawing calls #" << dcalls++) ;
+        LOG("Drawing calls #" << m_dcalls++) ;
         //END ;
     }
 
@@ -33,47 +33,47 @@ namespace ux
         switch(event.type)
         {
             case Event::LostFocus:
-                focused = false ;
-                last_event = UXEvents::LostFocus ;
-                for(auto& c : children)
+                m_focused = false ;
+                m_last_event = UXEvents::LostFocus ;
+                for(auto& c : m_children)
                     c->stealFocus();
             break;
 
             case Event::GainedFocus:
-                focused = true ;
-                last_event = UXEvents::GainedFocus ;
+                m_focused = true ;
+                m_last_event = UXEvents::GainedFocus ;
             break;
 
             case Event::MouseLeft:
-                focused = false ;
-                for(auto& c : children)
+                m_focused = false ;
+                for(auto& c : m_children)
                     c->stealFocus();
             break ;
 
             case Event::Closed:
-                closed = true;
+                m_closed = true;
             break;
 
             case Event::MouseButtonPressed:
-                last_event = UXEvents::MouseButtonPressed;
+                m_last_event = UXEvents::MouseButtonPressed;
             break ;
 
             case Event::MouseButtonReleased:
-                last_event = UXEvents::MouseButtonReleased;
+                m_last_event = UXEvents::MouseButtonReleased;
             break;
 
             case Event::MouseMoved:
-                last_event = UXEvents::MouseMoved;
+                m_last_event = UXEvents::MouseMoved;
             break ;
 
             case Event::Resized:
                 GlobalDrawingStates::Redraw = false ;
-                shape.setSize(Vec2f{event.size.width, event.size.height});
+                m_shape.setSize(Vec2f{event.size.width, event.size.height});
             break ;
         }
 
         //LOG("Sending to children..");
-        for(auto c : children)
+        for(auto c : m_children)
         {
             c->handleEvents(event);
         }
@@ -85,10 +85,10 @@ namespace ux
         for(auto& c : Component::all_elements)
         {
             //LOG("Number of animation : " << c.second->animations.size());
-            for(auto& anim : c.second->animations) {
+            for(auto& anim : c.second->m_animations) {
                 //LOG("PAnimations : " << anim.second.size());
                 for(auto am : anim.second) {
-                    if(am->running) {
+                    if(am->m_running) {
                         (*am)();
                         Component::all_elements[am->getId().getElementId()]->apply_current_changes();
                     }

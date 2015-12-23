@@ -15,23 +15,23 @@ namespace ux
 
 	class Window : public Component
 	{
-		int dcalls = 1 ;
-		bool closed ;
+		int m_dcalls = 1 ;
+		bool m_closed ;
 
-        TargetWindow* target ;
-		RectangleShape shape ;
-		unsigned int last_event ;
+        TargetWindow* m_target ;
+		RectangleShape m_shape ;
+		unsigned int m_last_event ;
 
 	public:
 		Window(int, int);
 
 		void handleEvents(const Event&);
-		bool isClosed() const { return closed; }
+		bool isClosed() const { return m_closed; }
 		void draw(Window_Impl*);
-		void setRenderTarget(Window_Impl* t) { target = dynamic_cast<TargetWindow*>(t); }
+		void setRenderTarget(Window_Impl* t) { m_target = dynamic_cast<TargetWindow*>(t); }
 		void update(int, int) {}
 
-		Color background_color ;
+		Color m_background_color ;
 
 		friend class Animator ;
 	};
