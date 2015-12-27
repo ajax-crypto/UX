@@ -113,7 +113,6 @@ namespace ux
         if(m_finished)
             m_rule.reset();
         m_running = !m_finished ;
-        //Component::all_elements[m_id.m_cid]->apply_current_changes();
         //END;
     }
 

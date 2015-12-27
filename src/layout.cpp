@@ -61,10 +61,10 @@ namespace ux
     void FlexBox::add(unsigned int region_id, Component* component)
     {
         START;
-        ASSERT(region_id > m_id, "Invalid Region");
+        ASSERT(region_id < m_id, "Invalid Region");
         LOG("Adding to region : #" << region_id << " regions : " << m_boxes.size());
         m_boxes[region_id].push_back(component);
-        Component::add(component);
+        Component::add(component, false);
         END;
     }
 
@@ -77,10 +77,10 @@ namespace ux
                   totalh = static_cast<float>(m_regions[i].m_endx - m_regions[i].m_startx) * m_height ,
                   starty = static_cast<float>(m_regions[i].m_startx) * m_height ,
                   startx = static_cast<float>(m_regions[i].m_starty) * m_width ;
-#ifdef UX_LAYOUT_DEBUG
-            LOG("Startx : " << startx << " Starty : " << starty);
-            LOG("Width : " << totalh << " Height : " << totalh);
-#endif
+
+            LAYOUT_LOG("Startx : " << startx << " Starty : " << starty);
+            LAYOUT_LOG("Width : " << totalh << " Height : " << totalh);
+
             if(m_boxes[i].size() > 0)
             {
                 (*m_boxes[i][0]).m_style.m_position = Vec2f{startx + m_x, starty + m_y};
@@ -93,7 +93,7 @@ namespace ux
 
                     default: break ;
                 }
-                (*m_boxes[i][0]).imbue_properties();
+                m_boxes[i][0]->imbue();
             }
         }
         END ;
@@ -101,17 +101,12 @@ namespace ux
 
     void FlexBox::draw(Window_Impl* window)
     {
-        //START;
-        for(auto c : m_children)
-            c->draw(window);
-        //END;
+        // Layout itself has nothing to draw!!!
     }
 
     void FlexBox::handleEvents(Event const& event)
     {
-#ifdef EVENT_DEBUG
-        START;
-#endif
+        EVENT_START;
         float ex, ey ;
         auto i = 0u ;
         switch(event.type)
@@ -151,8 +146,6 @@ namespace ux
             m_boxes[m_prev_region][0]->stealFocus();
         }
         m_prev_region = m_current_region ;
-#ifdef EVENT_DEBUG
-        END ;
-#endif
+        EVENT_END;
     }
 }

@@ -2,6 +2,31 @@
 
 namespace ux
 {
+
+    void Component::add(Component *c)
+    {
+        START;
+        add(c, true);
+        END;
+    }
+
+    void Component::add(Component *c, bool should_imbue)
+    {
+        START;
+        c->m_parent = this;
+        m_children.push_back(c);
+        all_elements[c->m_id] = (c);
+        drawables[c->m_style.m_graphics.m_z].push_back(c);
+        if(should_imbue)
+            c->imbue();
+        END;
+    }
+
+    void Component::operator+=(Component& component)
+    {
+        add(&component);
+    }
+
     void Component::stealFocus()
     {
         for(auto& anim : m_animations[UXEvents::GainedFocus])
@@ -62,21 +87,11 @@ namespace ux
         m_anim_events.push_back(m_anim_info);
     }
 
-    void Component::add(Component *c)
-    {
-        START;
-        c->m_parent = this;
-        m_children.push_back(c);
-        all_elements[c->m_id] = (c);
-        c->imbue_properties();
-        END;
-    }
-
     AnimationID Component::addAnimation(unsigned int e, const anim_func& f)
     {
         START ;
         m_animations[e].push_back(new Animation{f, e});
-        LOG("Added " << m_animations[e].size() << " animations...");
+        LOG("Added " << m_animations[e].size() << " animation(s)...");
         END;
         return m_animations[e].back()->getId();
     }
@@ -85,7 +100,7 @@ namespace ux
     {
         START ;
         m_animations[e].push_back(ac);
-        LOG("Added Custom " << m_animations[e].size() << " animations...");
+        LOG("Added Custom " << m_animations[e].size() << " animation(s)...");
         END;
         return m_animations[e].back()->getId();
     }
@@ -102,7 +117,7 @@ namespace ux
         return false ;
     }
 
-    void Component::imbue_properties()
+    void Component::imbue()
     {
         START;
         /*if(updatableChange())
@@ -145,11 +160,6 @@ namespace ux
             addAnimation(m_anim_info.m_anim_event, anim_ob);
         //anim_info.param_change_specified = false ;
         END;
-    }
-
-    void Component::operator+=(Component& component)
-    {
-        add(&component);
     }
 
     Component& Component::border(const Sides& sides, const Color& color)
@@ -243,6 +253,6 @@ namespace ux
         return *this;
     }
 
-
+    std::map<int, std::vector<Component*>> Component::drawables ;
     std::map<unsigned int, Component*> Component::all_elements ;
 }

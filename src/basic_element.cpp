@@ -7,7 +7,7 @@ namespace ux
     {
         START ;
         m_name = "BasicElement_" + std::to_string(m_id);
-        LOG(m_name);
+        LOG("Created : " << m_name);
         END ;
     }
 
@@ -18,9 +18,14 @@ namespace ux
         {
             //if(m_style.m_graphics.m_texture == 0u)
             //{
+                std::string str = m_text_impl.getString();
+                LOG("Text: " << str);
+                LOG("Position: " << m_text_impl.getPosition());
+                LOG("Font Size: " << m_text_impl.getCharacterSize());
+                LOG("Color: " << m_text_impl.getColor());
+
                 m_texture.clear(Color{ 0, 0, 0, 255 });
                 m_texture.draw(*m_shape_impl);
-                m_texture.draw(m_text_impl);
                 ASSERT(m_shape_impl != nullptr, "Damn!");
                 if(m_border_left != nullptr)
                     m_texture.draw(*m_border_left);
@@ -30,6 +35,7 @@ namespace ux
                     m_texture.draw(*m_border_top);
                 if(m_border_bottom != nullptr)
                     m_texture.draw(*m_border_bottom);
+                m_texture.draw(m_text_impl);
                 m_texture.display();
                 Sprite sprite{m_texture.getTexture()};
                 sprite.setPosition(m_style.m_position);
@@ -50,14 +56,12 @@ namespace ux
     void BasicElement::update(int x, int y)
     {
         m_style(ELEMENT_POSITION, Vec2f{ x, y });
-        imbue_properties();
+        imbue();
     }
 
     void BasicElement::handleEvents(Event const& event)
     {
-#ifdef EVENT_DEBUG
-        START ;
-#endif
+        EVENT_START;
         unsigned int ev = UXEvents::None ;
         bool prev = m_focused ;
 
@@ -68,7 +72,6 @@ namespace ux
                 if(m_focused && !prev)
                 {
                     ev = UXEvents::GainedFocus;
-                    LOG("Gained Focus...");
                     for(auto& anim : m_animations[UXEvents::GainedFocus])
                         anim->start();
                     for(auto& anim : m_animations[UXEvents::LostFocus])
@@ -77,7 +80,6 @@ namespace ux
                 else if(!m_focused && prev)
                 {
                     ev = UXEvents::LostFocus ;
-                    LOG("Lost Focus...");
                     for(auto& anim : m_animations[UXEvents::GainedFocus])
                         anim->stop();
                     for(auto& anim : m_animations[UXEvents::LostFocus])
@@ -114,9 +116,7 @@ namespace ux
         if(m_bubble_up)
             this->m_parent->handleEvents(event);
 
-#ifdef EVENT_DEBUG
-        END ;
-#endif
+        EVENT_END;
     }
 
     void ToggleButton::addAnimations()
@@ -161,11 +161,12 @@ namespace ux
     {
         m_normal_color = c;
         m_style.m_shape.m_color = m_normal_color ;
-        imbue_properties();
+        imbue();
     }
 
     void ToggleButton::handleEvents(Event const& event)
     {
+        EVENT_START;
         unsigned int ev = UXEvents::None ;
         bool prev = m_focused ;
 
@@ -176,7 +177,6 @@ namespace ux
                 if(m_focused && !prev)
                 {
                     ev = UXEvents::GainedFocus;
-                    //LOG("Gained Focus...");
                     for(auto& anim : m_animations[UXEvents::GainedFocus])
                         anim->start();
                     for(auto& anim : m_animations[UXEvents::LostFocus])
@@ -186,7 +186,6 @@ namespace ux
                 else if(!m_focused && prev)
                 {
                     ev = UXEvents::LostFocus ;
-                    //LOG("Lost Focus...");
                     for(auto& anim : m_animations[UXEvents::GainedFocus])
                         anim->stop();
                     for(auto& anim : m_animations[UXEvents::LostFocus])
@@ -202,7 +201,6 @@ namespace ux
                     // Not working!!!!
                     //toggle = !toggle ;
                     m_toggle = m_toggle ? false : true ;
-                    LOG("State Toggled... " << m_toggle);
                     for(auto& f : m_callbacks[UXEvents::StateToggled])
                         f(event);
                     for(auto& anim : m_animations[UXEvents::StateToggled])
@@ -214,5 +212,7 @@ namespace ux
         if(ev != UXEvents::None)
             for(auto& f : m_callbacks[ev])
                 f(event);
+
+        EVENT_END;
     }
 }

@@ -181,8 +181,8 @@ namespace ux {
         LINEN,
         MAGENTA,
         MAROON,
-        MADIUMAQUAMARINE,
-        MADIUMBLUE,
+        MEDIUMAQUAMARINE,
+        MEDIUMBLUE,
         MEDIUMORCHID,
         MEDIUMPURPLE,
         MEDIUMSEAGREEN,
@@ -284,6 +284,7 @@ namespace ux {
         Color{ 148, 0, 211 },
         Color{ 255, 20, 147 },
         Color{ 0, 191, 255 },
+        Color{ 105, 105, 105 },
         Color{ 30, 144, 255 },
         Color{ 178, 34, 34 },
         Color{ 255, 250, 240 },
@@ -497,6 +498,7 @@ namespace ux {
         bool        m_auto_size ;
         Alignment   m_alignment ;
         Vec2f       m_position ;
+        Sides       m_bounding_box ;
 
         Content(const std::string& str, const Color& color) :
             m_text{str}, m_color{color}, m_auto_size{false}
@@ -562,6 +564,12 @@ namespace ux {
 		static bool IsRectWithin(float, float, float, float, float, float);
 		static bool IsCircleWithin(float, float, float, float, float);
 	};
+
+	std::ostream& operator<<(std::ostream& stream, const Sides&);
+	std::ostream& operator<<(std::ostream& stream, const Border&);
+	std::ostream& operator<<(std::ostream& stream, const Content&);
+	std::ostream& operator<<(std::ostream& stream, const ElementShape&);
+
 }
 
 #endif

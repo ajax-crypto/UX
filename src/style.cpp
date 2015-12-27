@@ -246,4 +246,51 @@ namespace ux
     }
 
     bool GlobalDrawingStates::Redraw = true ;
+
+    std::ostream& operator<<(std::ostream& stream, const Sides& s)
+	{
+	    stream << "{ Top:" << s.m_top << " Bottom:" << s.m_bottom <<
+               " Left:" << s.m_left << " Right:" << s.m_right << " }";
+        return stream;
+	}
+
+	std::ostream& operator<<(std::ostream& stream, const Border& b)
+	{
+	    stream << "{ Dim:{ Top:" << b.m_top << " Bottom:" << b.m_bottom <<
+               " Left:" << b.m_left << " Right:" << b.m_right << " }, Color:" <<
+               b.m_color << " }";
+        return stream;
+	}
+
+	std::ostream& operator<<(std::ostream& stream, const Content& c)
+	{
+	    auto align = [&c]() {
+            switch(c.m_alignment) {
+            case LEFT: return "LEFT";
+            case RIGHT: return "RIGHT";
+            case CENTER: return "CENTER";
+            }
+            return "UNDEFINED";
+	    };
+
+	    stream << "{ Text:" << c.m_text << " Position:" << c.m_position << " Font-size:"
+	           << c.m_font_size << " Auto-size?:" << c.m_auto_size << " Bounding-box:"
+	           << c.m_bounding_box << " Alignment:" << align() << " }";
+        return stream;
+	}
+
+	std::ostream& operator<<(std::ostream& stream, const ElementShape& s)
+	{
+	    auto type = [&s]() {
+            switch(s.m_type) {
+            case RECTANGLE: return "RECTANGLE";
+            case CIRCLE: return "CIRCLE";
+            }
+            return "UNDEFINED";
+	    };
+
+	    stream << "{ Type:" << type() << " Color:" << s.m_color
+	           << " Position:" << s.m_position << " }";
+        return stream;
+	}
 }

@@ -79,6 +79,7 @@ namespace ux
 
 	public:
 		EventHandler();
+		virtual ~EventHandler() {}
 		EventID addEventListener(int event, const HandlerType&);
 		bool    removeEventListener(const EventID&);
 

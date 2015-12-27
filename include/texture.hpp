@@ -4,14 +4,26 @@
 #include "log.hpp"
 #include "typedefs.hpp"
 
-#include <map>
+#include <unordered_map>
+#include <string>
 
 namespace ux
 {
+    namespace hasher
+    {
+        struct ColorHasher
+        {
+            std::size_t operator()(const Color&) const;
+        };
+    }
+
+    /** \brief \c TextureSilo class is responsible for caching the textures
+     * and enable reuse.
+     */
     class TextureSilo
     {
-        static std::map<Color, RenderTexture> color_textures;
-        static std::map<std::string, RenderTexture> file_textures;
+        static std::unordered_map<Color, RenderTexture, hasher::ColorHasher> color_textures;
+        //static std::map<std::string, RenderTexture> file_textures;
         static unsigned int seed;
 
         TextureSilo() {};

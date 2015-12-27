@@ -1,11 +1,7 @@
-#define UX_DEBUG 1
-#define FUNC_INFO 1
-#define UX_LAYOUT_DEBUG 1
-#define ELEMENT_PROPERTIES 1
-#define RT 1
+#define __UX_DEBUG 1
 
-#include "include/sux.hpp"
 #include "include/log.hpp"
+#include "include/sux.hpp"
 #include <string>
 #include <array>
 #include <cstdlib>
@@ -111,8 +107,6 @@ int main()
 
     Calculator<float> calc ;
 
-    ux::logger::logging = true ;
-
     const std::array<std::string, 16> names = {
         "1", "2", "3", "+",
         "4", "5", "6", "-",
@@ -131,16 +125,11 @@ int main()
         Color{128, 128, 128}, Color{128, 128, 128}, Color{128, 128, 128}, Color{128, 128, 0},
         Color{128, 128, 128}, Color{128, 128, 0}, Color{128, 128, 0}, Color{128, 128, 0} };
 
-    const int APP_WIDTH = 300, APP_HEIGHT = 500 ;
+    const int APP_WIDTH = 400, APP_HEIGHT = 600 ;
     SUXApp app{"Grid Layout Demo", APP_WIDTH, APP_HEIGHT};
     SWindow w{APP_WIDTH, APP_HEIGHT};
     SBox layout{5, 4, 0, 0, APP_WIDTH, APP_HEIGHT};
     layout.merge(SBox::COLS, 0);
-
-    ux::StyleData ob ;
-    std::cout << "Size of class : " << sizeof(ob);
-
-    ux::logger::logging = false;
 
     std::array<CalcButton, 16> buttons ;
     buttons[0].type = buttons[1].type = buttons[2].type = NUMERIC;
@@ -157,26 +146,26 @@ int main()
     SLabel display{"", 0, 0, APP_WIDTH, 100};
     display.background(ux::RGB[ux::WHITE])
            .text("", ux::RGB[ux::BLACK], 40)
-           .align(ux::RIGHT);
+           .align(ux::RIGHT)
+           .padding(30);
 
     for(unsigned int i = 0u; i < 16; ++i)
     {
 
         buttons[i].button.background(colors[i])
                          .text(names[i], ux::RGB[ux::BLACK])
-                         .imbue_properties();
-        //ux::log("Styling complete...\tAdding Callbacks");
+                         .border(2, ux::RGB[ux::FORESTGREEN]);
 
-        buttons[i].button.on(UXEvents::GainedFocus)
+        /*buttons[i].button.on(UXEvents::GainedFocus)
                   .animate(ux::SHAPE_COLOR)
                   .to(fcolors[i])
-                  .speed(20)
+                  .speed(3)
                   .pack();
 
         buttons[i].button.on(UXEvents::LostFocus)
                   .animate(ux::SHAPE_COLOR)
                   .to(colors[i])
-                  .speed(20)
+                  .speed(3)
                   .pack();
 
         buttons[i].button.on(UXEvents::MouseButtonPressed)
@@ -189,7 +178,7 @@ int main()
                   .animate(ux::TEXT_COLOR)
                   .to(ux::RGB[ux::BLACK])
                   .speed(2)
-                  .pack();
+                  .pack();*/
 
         buttons[i].button.addEventListener(UXEvents::MouseButtonReleased,
             [&](unsigned index) mutable {
@@ -217,7 +206,7 @@ int main()
                         display.m_style.m_content.m_text = res;
                     break ;
                     }
-                    display.imbue_properties();
+                    display.imbue();
                 };
             }(i)
         );
@@ -231,5 +220,8 @@ int main()
     app.add(&w);
     //ux::log("Added to window");
     app.draw();
+
+    //std::cout << "Size : " << ux::Component::drawables[0].size() << "\n";
+    //PAUSE;
     return app.run();
 }

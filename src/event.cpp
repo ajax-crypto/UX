@@ -11,9 +11,9 @@ namespace ux
 
     EventID EventHandler::addEventListener(int event, const HandlerType& f)
     {
-        LOG("Adding event listeners...");
+        START;
         m_callbacks[event].push_back(f);
-        LOG("Event Listeners added...");
+        END;
         return EventID{event, m_callbacks[event].size() - 1, m_id};
     }
 

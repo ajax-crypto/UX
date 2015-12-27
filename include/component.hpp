@@ -32,7 +32,8 @@ namespace ux
         ColorInterpolate m_cig, m_cil ;
         LinearInterpolate<float> m_fi ;
 
-        struct {
+        struct
+        {
             Color m_color ;
             Vec2f m_dimension ;
             float m_amount ;
@@ -53,12 +54,14 @@ namespace ux
 
     public:
         void add(Component*);
+        void add(Component*, bool);
         void setFocus() { m_focused = true; }
         void removeFocus() { m_focused = false; }
         void enable() { m_enabled = true; }
         void disable() { m_enabled = false; }
         void stealFocus();
         void operator+=(Component&);
+        virtual ~Component() {}
 
         AnimationID addAnimation(unsigned int, const anim_func&);
         AnimationID addAnimation(unsigned int, AnimCount*);
@@ -73,7 +76,7 @@ namespace ux
         Component& speed(unsigned int);
         Component& then();
         void       pack() ;
-        void       imbue_properties();
+        void       imbue();
 
         Component& margin(float);
 		Component& margin(const Sides&);
@@ -104,7 +107,8 @@ namespace ux
             return EventHandler::m_id == c.m_id ;
         }
 
-        static std::map<unsigned, Component*> all_elements ;
+        static std::map<int, std::vector<Component*>> drawables ;
+        static std::map<unsigned int, Component*> all_elements;
 
         friend struct Animator ;
         friend class  Window ;

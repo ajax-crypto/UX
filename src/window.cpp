@@ -11,21 +11,25 @@ namespace ux
         m_shape.setSize(Vec2f{w, h});
         m_shape.setFillColor(m_background_color);
         LookAndFeel::LoadFonts();
-        //this->parent = nullptr ;
         END ;
     }
 
     void Window::draw(Window_Impl* w)
     {
-        //START ;
+        START ;
         m_shape.setFillColor(m_background_color);
         w->draw(m_shape);
-        for(auto c : m_children)
-            c->draw(w);
+        //for(auto c : m_children)
+            //c->draw(w);
+        for(auto&& pair : drawables) {
+            LOG("Drawing z-level: " << pair.first);
+            for(auto&& element : pair.second)
+                element->draw(w);
+        }
         GlobalDrawingStates::Redraw = false;
         Animator::Animate();
-        LOG("Drawing calls #" << m_dcalls++) ;
-        //END ;
+        LOG("Drawing call completed #" << m_dcalls++) ;
+        END ;
     }
 
     void Window::handleEvents(const Event& event)
@@ -82,12 +86,12 @@ namespace ux
     bool Animator::Animate()
     {
         //START;
-        for(auto& c : Component::all_elements)
+        for(auto&& c : Component::all_elements)
         {
             //LOG("Number of animation : " << c.second->animations.size());
-            for(auto& anim : c.second->m_animations) {
+            for(auto&& anim : c.second->m_animations) {
                 //LOG("PAnimations : " << anim.second.size());
-                for(auto am : anim.second) {
+                for(auto&& am : anim.second) {
                     if(am->m_running) {
                         (*am)();
                         Component::all_elements[am->getId().getElementId()]->apply_current_changes();
