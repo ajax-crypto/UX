@@ -14,9 +14,12 @@ namespace ux
     public:
 
         LookAndFeel() :
-		    m_shape_impl{nullptr}, m_border_top{nullptr},
-		    m_border_bottom{nullptr}, m_border_left{nullptr},
-		    m_border_right{nullptr} {}
+		    m_shape_impl{nullptr},
+		    m_border_top{nullptr}, m_border_bottom{nullptr},
+		    m_border_left{nullptr}, m_border_right{nullptr}
+        {
+            m_style.m_shape.m_type = RECTANGLE;
+        }
 
 		LookAndFeel(const std::string&, int, int, int, int);
 

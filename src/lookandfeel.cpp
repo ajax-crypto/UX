@@ -59,9 +59,7 @@ namespace ux
         if(m_style.m_shape.m_type != m_prev_style.m_shape.m_type ||
            m_style.m_shape.m_rect.m_height != m_prev_style.m_shape.m_rect.m_height ||
            m_style.m_shape.m_rect.m_width != m_prev_style.m_shape.m_rect.m_width)
-            m_texture.create(
-                m_style.m_shape.m_rect.m_width + m_style.m_border.m_left + m_style.m_border.m_right,
-                m_style.m_shape.m_rect.m_height + m_style.m_border.m_top + m_style.m_border.m_bottom);
+            m_texture.create(m_style.m_shape.m_rect.m_width, m_style.m_shape.m_rect.m_height);
 
         switch(m_style.m_shape.m_type)
         {

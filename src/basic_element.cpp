@@ -64,11 +64,16 @@ namespace ux
         EVENT_START;
         unsigned int ev = UXEvents::None ;
         bool prev = m_focused ;
+        float ex, ey;
 
         switch(event.type)
         {
             case Event::MouseMoved:
-                m_focused = true ;
+                ex = event.mouseMove.x, ey = event.mouseMove.y ;
+                m_focused = GlobalDrawingStates::IsRectWithin(ex, ey, m_style.m_position.x,
+                    m_style.m_position.y, m_style.m_shape.m_rect.m_width,
+                    m_style.m_shape.m_rect.m_height);
+
                 if(m_focused && !prev)
                 {
                     ev = UXEvents::GainedFocus;
@@ -89,23 +94,35 @@ namespace ux
                     ev = UXEvents::InFocus ;
                 else
                     ev = UXEvents::OutFocus ;
-
             break;
 
             case Event::MouseButtonPressed:
-                for(auto& anim : m_animations[UXEvents::MouseButtonReleased])
-                    anim->stop();
-                for(auto& anim : m_animations[UXEvents::MouseButtonPressed])
-                    anim->start();
-                ev = UXEvents::MouseButtonPressed ;
+                ex = event.mouseButton.x, ey = event.mouseButton.y ;
+                if(GlobalDrawingStates::IsRectWithin(ex, ey, m_style.m_position.x,
+                    m_style.m_position.y, m_style.m_shape.m_rect.m_width,
+                    m_style.m_shape.m_rect.m_height))
+                {
+                    for(auto& anim : m_animations[UXEvents::MouseButtonReleased])
+                        anim->stop();
+                    for(auto& anim : m_animations[UXEvents::MouseButtonPressed])
+                        anim->start();
+                    ev = UXEvents::MouseButtonPressed ;
+                }
             break;
 
             case Event::MouseButtonReleased:
-                for(auto& anim : m_animations[UXEvents::MouseButtonPressed])
-                    anim->stop();
-                for(auto& anim : m_animations[UXEvents::MouseButtonReleased])
-                    anim->start();
-                ev = UXEvents::MouseButtonReleased ;
+                ex = event.mouseButton.x, ey = event.mouseButton.y ;
+                if(GlobalDrawingStates::IsRectWithin(ex, ey, m_style.m_position.x,
+                    m_style.m_position.y, m_style.m_shape.m_rect.m_width,
+                    m_style.m_shape.m_rect.m_height))
+                {
+                    for(auto& anim : m_animations[UXEvents::MouseButtonPressed])
+                        anim->stop();
+                    for(auto& anim : m_animations[UXEvents::MouseButtonReleased])
+                        anim->start();
+                    ev = UXEvents::MouseButtonReleased ;
+                }
+
             break;
         }
 
