@@ -41,7 +41,8 @@ namespace ux
 		void setText();
 		void setBorders();
 		void update(const StyleData&);
-		bool updatableChange() const ;
+        bool isDirty() const ;
+		bool childrenNeedUpdate() const ;
 
         StyleData  m_style;
 

@@ -7,8 +7,8 @@
 
 namespace ux {
 
-    constexpr int ZTOP = std::numeric_limits<int>::max();
-    constexpr int ZBOTTOM = std::numeric_limits<int>::min();
+    constexpr int ZTOP = std::numeric_limits<int>::max() - 1;
+    constexpr int ZBOTTOM = std::numeric_limits<int>::min() + 1;
 
     enum Shapes {
         NONE,
@@ -25,6 +25,19 @@ namespace ux {
         RELATIVE,
         ABSOLUTE,
         FIXED
+    };
+    
+    enum Filter {
+        BW,
+        EDGE,
+        SHARPEN,
+        BRIGHTEN,
+        LIGHTEN,
+        DARKEN,
+        BLUR,
+        SEPIA,
+        CONTRAST,
+        GLASS
     };
 
 	enum Alignment {
@@ -540,11 +553,15 @@ namespace ux {
         Sides        m_padding ;
         Sides        m_margin ;
         Graphics     m_graphics ;
+        Filter       m_filter ;
 
         StyleData() ;
         StyleData(const StyleData&) = default ;
         StyleData(StyleData&&) = default ;
         StyleData& operator=(const StyleData&) = default ;
+        
+        bool operator==(const StyleData&) const;
+        bool operator!=(const StyleData&) const;
 
         StyleData& operator()(Property, const Vec2f&);
         StyleData& operator()(Property, const Color&);

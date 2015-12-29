@@ -244,6 +244,22 @@ namespace ux
         m_graphics.m_smooth = true;
         m_graphics.m_texture = 0u;
     }
+    
+    bool StyleData::operator==(const StyleData& another) const
+    {
+        return (m_position == another.m_position) &&
+               (m_shape == another.m_shape) &&
+               (m_content == another.m_content) &&
+               (m_padding == another.m_padding) &&
+               (m_margin == another.m_margin) &&
+               (m_border == another.m_border) &&
+               (m_graphics == another.m_graphics);
+    }
+    
+    bool StyleData::operator!=(const StyleData& another) const
+    {
+        return !(operator==(another));
+    }
 
     bool GlobalDrawingStates::Redraw = true ;
 

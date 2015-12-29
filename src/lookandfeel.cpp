@@ -45,11 +45,17 @@ namespace ux
         END ;
     }
 
-    bool LookAndFeel::updatableChange() const
+    bool LookAndFeel::childrenNeedUpdate() const
     {
         return m_style.m_content.m_alignment != m_prev_style.m_content.m_alignment ||
                m_style.m_position != m_prev_style.m_position ||
-               m_style.m_padding != m_prev_style.m_padding ;
+               m_style.m_padding != m_prev_style.m_padding ||
+               m_style.m_margin != m_prev_style.m_margin;
+    }
+    
+    bool LookAndFeel::isDirty() const
+    {
+        return m_style != m_prev_style ;
     }
 
     void LookAndFeel::apply_current_changes()
