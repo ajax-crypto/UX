@@ -27,6 +27,21 @@ namespace ux
         }
         return same_shape && lhs.m_position == rhs.m_position && lhs.m_color == rhs.m_color ;
     }
+    
+    bool operator==(const Shadow& lhs, const Shadow& rhs)
+    {
+        return lhs.m_color == rhs.m_color &&
+               lhs.m_spread == rhs.m_spread &&
+               lhs.m_smooth == rhs.m_smooth ;
+    }
+    
+    bool operator==(const Graphics& lhs, const Graphics& rhs)
+    {
+        return lhs.m_texture == rhs.m_texture &&
+               lhs.m_z == rhs.m_z &&
+               lhs.m_smooth == rhs.m_smooth &&
+               lhs.m_repeat == rhs.m_repeat;
+    }
 
     StyleData& StyleData::operator()(Property p, const Vec2f& vec)
     {
@@ -74,6 +89,10 @@ namespace ux
 
         case SHADOW_COLOR:
             m_shadow.m_color = c ;
+            break ;
+            
+        case BORDER_COLOR:
+            m_shape.m_border.m_color = c ;
             break ;
 
         default: break ;
@@ -200,8 +219,24 @@ namespace ux
             break ;
 
         case BORDER_COLOR:
-            c = m_border.m_color;
+            c = m_shape.m_border.m_color;
             break ;
+            
+        case BORDER_TOP_COLOR:
+            c = m_shape.m_border_top.m_color;
+            break;
+            
+        case BORDER_BOTTOM_COLOR:
+            c = m_shape.m_border_bottom.m_color;
+            break;
+           
+        case BORDER_LEFT_COLOR:
+            c = m_shape.m_border_left.m_color;
+            break;
+            
+        case BORDER_RIGHT_COLOR:
+            c = m_shape.m_border_right.m_color;
+            break;
 
         default: break ;
         }

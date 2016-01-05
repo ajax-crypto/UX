@@ -105,6 +105,10 @@ namespace ux {
         SHADOW_COLOR,
         TEXT_COLOR,
         BORDER_COLOR,
+        BORDER_TOP_COLOR,
+        BORDER_BOTTOM_COLOR,
+        BORDER_RIGHT_COLOR,
+        BORDER_LEFT_COLOR,
         SHAPE_TEXTURE,
         SHADOW_TEXTURE,
         BORDER_TEXTURE,
@@ -399,17 +403,41 @@ namespace ux {
         Color{ 255, 255, 0 },
         Color{ 139, 205, 50 }
     };
+    
+    struct Sides
+    {
+         float m_left, m_right, m_top, m_bottom ;
+    };
+
+    inline bool operator==(const Sides& lhs, const Sides& rhs)
+    {
+        return lhs.m_left == rhs.m_left && lhs.m_right == rhs.m_right &&
+               lhs.m_bottom == rhs.m_bottom && lhs.m_top == rhs.m_top ;
+    }
+
+    inline bool operator!=(const Sides& lhs, const Sides& rhs)
+    {
+        return !(lhs == rhs);
+    }
+    
+    struct Border
+    {
+        float  m_thickness ;
+        Color  m_color ;
+    }
 
     namespace shape
     {
+      
         struct Rect
         {
             float m_height, m_width ;
+            
         };
 
         struct Circle
         {
-            float m_radius ;
+            float  m_radius ;
         } ;
 
         struct Ellipse
@@ -421,12 +449,6 @@ namespace ux {
         {
             float m_height, m_width ;
             float m_topleft, m_bottomleft, m_topright, m_bottomright ;
-        };
-
-        struct Sector
-        {
-            float m_radius ;
-            float m_angle ;
         };
 
         inline bool operator==(const Rect& lhs, const Rect& rhs)
@@ -447,11 +469,6 @@ namespace ux {
         inline bool operator!=(const Circle& lhs, const Circle& rhs)
         {
             return !(lhs == rhs);
-        }
-
-        inline bool operator==(const Sector& lhs, const Sector& rhs)
-        {
-            return lhs.m_radius == rhs.m_radius && lhs.m_angle == rhs.m_angle ;
         }
 
         inline bool operator==(const Ellipse& lhs, const Ellipse& rhs)
@@ -475,31 +492,23 @@ namespace ux {
             shape::Rect        m_rect ;
             shape::Circle      m_circle ;
             shape::RoundedRect m_rounded_rect ;
-            shape::Sector      m_sector ;
             shape::Ellipse     m_ellipse ;
         };
+        
+        union
+        {
+            struct {
+                Border m_border_left, m_border_right, m_border_top, m_border_bottom;
+            }
+            Border m_border;
+        };
+        
         Shapes m_type ;
         Color  m_color ;
         Vec2f  m_position ;
     } ;
 
     bool operator==(const ElementShape& lhs, const ElementShape& rhs);
-
-    struct Sides
-    {
-         float m_left, m_right, m_top, m_bottom ;
-    };
-
-    inline bool operator==(const Sides& lhs, const Sides& rhs)
-    {
-        return lhs.m_left == rhs.m_left && lhs.m_right == rhs.m_right &&
-               lhs.m_bottom == rhs.m_bottom && lhs.m_top == rhs.m_top ;
-    }
-
-    inline bool operator!=(const Sides& lhs, const Sides& rhs)
-    {
-        return !(lhs == rhs);
-    }
 
     struct Content
     {
@@ -512,6 +521,8 @@ namespace ux {
         Alignment   m_alignment ;
         Vec2f       m_position ;
         Sides       m_bounding_box ;
+        float       m_line_height ;
+        float       m_letter_spacing ;
 
         Content(const std::string& str, const Color& color) :
             m_text{str}, m_color{color}, m_auto_size{false}
@@ -519,12 +530,8 @@ namespace ux {
 
         Content() : m_auto_size{false}, m_color{RGB[BLACK]} {}
     } ;
-
-    struct Border
-    {
-        float m_left, m_right, m_top, m_bottom ;
-        Color m_color ;
-    };
+    
+    bool operator==(const Content&, const Content&);
 
     struct Shadow
     {
@@ -532,6 +539,8 @@ namespace ux {
         Color m_color ;
         bool  m_smooth ;
     };
+    
+    bool operator==(const Shadow&, const Shadow&);
 
     struct Graphics
     {
@@ -540,6 +549,8 @@ namespace ux {
         bool     m_smooth;
         bool     m_repeat;
     };
+    
+    bool operator==(const Graphics&, const Graphics&);
 
     struct StyleData
     {
@@ -549,7 +560,6 @@ namespace ux {
         Positioning  m_positioning ;
         Content      m_content ;
         Shadow       m_shadow ;
-        Border       m_border ;
         Sides        m_padding ;
         Sides        m_margin ;
         Graphics     m_graphics ;

@@ -162,16 +162,6 @@ namespace ux
         END;
     }
 
-    Component& Component::border(const Sides& sides, const Color& color)
-    {
-        m_style.m_border.m_left = sides.m_left ;
-        m_style.m_border.m_right = sides.m_right ;
-        m_style.m_border.m_top = sides.m_top ;
-        m_style.m_border.m_bottom = sides.m_bottom ;
-        m_style.m_border.m_color = color ;
-        return *this;
-    }
-
     Component& Component::text(const std::string& text)
     {
         m_style.m_content.m_text = text;
@@ -204,9 +194,36 @@ namespace ux
 
     Component& Component::border(float amount, const Color& color)
     {
-        m_style.m_border.m_bottom = m_style.m_border.m_top = amount;
-        m_style.m_border.m_left = m_style.m_border.m_right = amount;
-        m_style.m_border.m_color = color;
+        if(m_style.m_shape.m_type == RECTANGLE)
+        {
+            m_style.m_shape.m_border_bottom.m_thickness = m_style.m_shape.m_border_top.m_thickness = amount;
+            m_style.m_shape.m_border_left.m_thickness = m_style.m_shape.m_border_right.m_thickness = amount;
+            
+            m_style.m_shape.m_border.m_bottom.m_color = m_style.m_shape.m_border_top.m_color = color;
+            m_style.m_shape.m_border.m_left.m_color = m_style.m_shape.m_border_right.m_color = color;
+        }
+        else
+        {
+            m_style.m_shape.m_border.m_color = color;
+            m_style.m_shape.m_border.m_thickness = amount;
+        }
+        return *this;
+    }
+    
+    Component& Component::border(const Sides& sides, const Color& color)
+    {
+        if(m_style.m_shape.m_type == RECTANGLE)
+        {
+            m_style.m_shape.m_border_left.m_thickness = sides.m_left ;
+            m_style.m_shape.m_border_right.m_thickness = sides.m_right ;
+            m_style.m_shape.m_border_top.m_thickness = sides.m_top ;
+            m_style.m_shape.m_border_bottom.m_thickness = sides.m_bottom ;
+            
+            m_style.m_shape.m_border_left.m_color = color;
+            m_style.m_shape.m_border_right.m_color = color;
+            m_style.m_shape.m_border_top.m_color = color;
+            m_style.m_shape.m_border_bottom.m_color = color;
+        }
         return *this;
     }
 

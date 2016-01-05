@@ -3,13 +3,26 @@
 
 #include "style.hpp"
 #include "log.hpp"
+#include <unordered_map>
 
 namespace ux
 {
 	class AnimCount ;
 	class Window ;
 
-	class LookAndFeel
+	struct Impl
+    {
+        Shape *m_shape ;
+        union {
+            struct {
+		      Shape *m_border_top,*m_border_bottom ,*m_border_left, *m_border_right ;
+            };
+            Shape *m_border;
+        };
+		Text  *m_text ;
+    };
+    
+    class LookAndFeel
 	{
     public:
 
@@ -55,10 +68,12 @@ namespace ux
 
 		StyleData  m_prev_style ;
 		std::map<unsigned, std::vector<AnimCount*>> m_animations ;
-		Shape *m_shape_impl ;
-		Shape *m_border_top,*m_border_bottom ,*m_border_left, *m_border_right ;
-		Text   m_text_impl ;
-		RenderTexture m_texture ;
+		//Shape *m_shape_impl ;
+		//Shape *m_border_top,*m_border_bottom ,*m_border_left, *m_border_right ;
+		//Text   m_text_impl ;
+		//RenderTexture m_texture ;
+        
+        Impl m_impl ;
 
 		static Font Regular ;
 		static Font Bold ;

@@ -34,14 +34,6 @@ namespace ux
         m_style.m_content.m_color = Color{255, 255, 255};
         m_style.m_content.m_auto_size = true;
         m_style.m_content.m_alignment = CENTER ;
-        if(m_style.m_border.m_left > 0)
-            m_border_left = new RectangleShape(Vec2f{ m_style.m_border.m_left, h });
-        if(m_style.m_border.m_right > 0)
-            m_border_right = new RectangleShape(Vec2f{ m_style.m_border.m_right, h });
-        if(m_style.m_border.m_top > 0)
-            m_border_top = new RectangleShape(Vec2f{ w, m_style.m_border.m_top });
-        if(m_style.m_border.m_bottom > 0)
-            m_border_bottom = new RectangleShape(Vec2f{ w, m_style.m_border.m_bottom });
         END ;
     }
 
@@ -104,39 +96,48 @@ namespace ux
 
     void LookAndFeel::setBorders()
     {
-        if(m_style.m_border.m_left > 0.f)
+        if(m_style.m_shape.m_type == RECTANGLE)
         {
-            if(m_border_left == nullptr)
-                m_border_left = new RectangleShape(
-                    Vec2f{ m_style.m_border.m_left, m_style.m_shape.m_rect.m_height });
-            m_border_left->setPosition(m_style.m_shape.m_position);
-            m_border_left->setFillColor(m_style.m_border.m_color);
+            if(m_style.m_shape.m_border_left.m_thickness > 0.f)
+            {
+                if(impl.m_border_left == nullptr)
+                    impl.m_border_left = new RectangleShape(
+                        Vec2f{ m_style.m_shape.m_border_left.m_thickness, 
+                               m_style.m_shape.m_rect.m_height });
+                impl.m_border_left->setPosition(m_style.m_shape.m_position);
+                impl.m_border_left->setFillColor(m_style.m_shape.m_border_left.m_color);
+            }
+            if(m_style.m_shape.m_border_right.m_thickness > 0.f)
+            {
+                if(impl.m_border_right == nullptr)
+                    impl.m_border_right = new RectangleShape(
+                        Vec2f{ m_style.m_shape.m_border_right.m_thickness, 
+                               m_style.m_shape.m_rect.m_height });
+                impl.m_border_right->setPosition(m_style.m_shape.m_position +
+                    Vec2f{ m_style.m_shape.m_rect.m_width - m_style.m_border.m_right, 0 });
+                impl.m_border_right->setFillColor(m_style.m_shape.m_border_right.m_color);
+            }
+            if(m_style.m_shape.m_border_top.m_thickness > 0.f)
+            {
+                if(impl.m_border_top == nullptr)
+                    impl.m_border_top = new RectangleShape(
+                        Vec2f{ m_style.m_shape.m_rect.m_width, m_style.m_border.m_top });
+                impl.m_border_top->setPosition(m_style.m_shape.m_position);
+                impl.m_border_top->setFillColor(m_style.m_shape.m_border_top.m_color);
+            }
+            if(m_style.m_shape.m_border_bottom.m_thickness > 0.f)
+            {
+                if(impl.m_border_bottom == nullptr)
+                    impl.m_border_bottom = new RectangleShape(
+                        Vec2f{ m_style.m_shape.m_rect.m_width, m_style.m_border.m_bottom });
+                impl.m_border_bottom->setPosition(m_style.m_shape.m_position +
+                    Vec2f{ 0, m_style.m_shape.m_rect.m_height - m_style.m_border.m_bottom });
+                impl.m_border_bottom->setFillColor(m_style.m_shape.m_border_bottom.m_color);
+            }
         }
-        if(m_style.m_border.m_right > 0.f)
+        else
         {
-            if(m_border_right == nullptr)
-                m_border_right = new RectangleShape(
-                    Vec2f{ m_style.m_border.m_left, m_style.m_shape.m_rect.m_height });
-            m_border_right->setPosition(m_style.m_shape.m_position +
-                Vec2f{ m_style.m_shape.m_rect.m_width - m_style.m_border.m_right, 0 });
-            m_border_right->setFillColor(m_style.m_border.m_color);
-        }
-        if(m_style.m_border.m_top > 0.f)
-        {
-            if(m_border_top == nullptr)
-                m_border_top = new RectangleShape(
-                    Vec2f{ m_style.m_shape.m_rect.m_width, m_style.m_border.m_top });
-            m_border_top->setPosition(m_style.m_shape.m_position);
-            m_border_top->setFillColor(m_style.m_border.m_color);
-        }
-        if(m_style.m_border.m_bottom > 0.f)
-        {
-            if(m_border_bottom == nullptr)
-                m_border_bottom = new RectangleShape(
-                    Vec2f{ m_style.m_shape.m_rect.m_width, m_style.m_border.m_bottom });
-            m_border_bottom->setPosition(m_style.m_shape.m_position +
-                Vec2f{ 0, m_style.m_shape.m_rect.m_height - m_style.m_border.m_bottom });
-            m_border_bottom->setFillColor(m_style.m_border.m_color);
+            
         }
     }
 
